@@ -33,7 +33,7 @@ class Following(models.Model):
 
 class Photo(models.Model):
     id = models.BigIntegerField(primary_key=True)
-    photo = models.CharField(max_length=256)
+    photo = models.ImageField(max_length=256)
     userid = models.ForeignKey('AuthUser', models.DO_NOTHING, db_column='userid')
     textid = models.ForeignKey('Text', models.DO_NOTHING, db_column='textid')
 
@@ -90,7 +90,7 @@ class Text(models.Model):
 
 class Userprofile(models.Model):
     id = models.BigIntegerField(primary_key=True)
-    profilepic = models.CharField(max_length=256, blank=True, null=True)
+    profilepic = models.ImageField(max_length=256, blank=True, null=True)
     portfolio_field = models.CharField(db_column='portfolio ', max_length=256, blank=True, null=True)  # Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
     bio = models.CharField(max_length=256, blank=True, null=True)
     userid = models.ForeignKey('AuthUser', models.DO_NOTHING, db_column='userid')

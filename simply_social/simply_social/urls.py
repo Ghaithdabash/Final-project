@@ -19,8 +19,8 @@ from django.contrib.auth import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'',views.login,name='login'),
     url(r'',include('social_app.urls')),
-    url(r'accounts/login/$',views.login,name='login'),
     url(r'accounts/logout/$',views.logout,name='logout',kwargs={'next_page':'/'}),
 #    url(r'^api/trips/',include("social_app.API.urls", namespace = 'trips-api')),
 ]
