@@ -2,6 +2,7 @@ from django.template import RequestContext
 from social_app.forms import UserForm, UserProfileForm
 from django.shortcuts import render
 from social_app.models import AuthUser
+from django.contrib.auth.forms import UserCreationForm
 
 def register(request):
      registered = False

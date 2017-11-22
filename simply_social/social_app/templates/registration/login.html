@@ -1,42 +1,48 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-  </head>
-  <body>
-    <div class="jumbotron">
+{% extends "base.html" %}
 
-    <form action="{% url 'login' %}" method="POST">
-     {% csrf_token %}
-     {{ form.as_p }}
+{% load staticfiles %}
+{% block content %}
+
+<div class="row">
+  <div class="col-md-12 view">
+          <div class="row designrow topbakground justify-content-center possition">
+                <div class="col-md-4 text-center">
+                    <p>   Position an element at the top of the viewport, from edge to edge.
+                            Be sure you understand the ramifications of fixed position in your project;
+                           you may need to add aditional CSS.
+                    </p>
+                </div>
+      <div class="col-md-4 text-center">
+        <form action="{% url 'login' %}" method="POST">
+         {% csrf_token %}
+         {{ form.as_p }}
 
 
-     <input type="submit" class="btn btn-primary" value="login">
+         <input type="submit" class="btn btn-primary" value="login">
 
-    </form>
+        </form>
+        <div class="row">
+          <div class="col-md-12">
 
-    </div>
-    <div class= "row">
-       <div class="col-12 jumbotron">
-         <h1>Sign up here!</h1>
+                       <form enctype="multipart/form-data" method="POST">
+                         {% csrf_token %}
+                         {% for field in user_form %}
+                         <p>
+                           {{ field.label_tag }}
+                           {{ field }}
+                           {% for error in field.errors %}
+                             <p style="color: red">{{ error }}</p>
+                           {% endfor %}
+                         </p>
+                       {% endfor %}
+                       {{ user_img.as_p }}
+                       <button type="submit" class="btn btn-success">Sign</button>
+                       </form>
+          </div>
+                  </div>
+            </div>
+        </div>
+      </div>
+</div>
 
-           <form enctype="multipart/form-data" method="POST">
-             {% csrf_token %}
-             {% for field in user_form %}
-             <p>
-               {{ field.label_tag }}<br>
-               {{ field }}
-               {% for error in field.errors %}
-                 <p style="color: red">{{ error }}</p>
-               {% endfor %}
-             </p>
-           {% endfor %}
-           {{ user_img.as_p }}
-           <button type="submit" class="btn btn-success">Sign</button>
-           </form>
-       </div>
-     </div>
-
-</body>
-</html>
+{% endblock %}

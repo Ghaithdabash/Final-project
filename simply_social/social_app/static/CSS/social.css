@@ -1,0 +1,133 @@
+body{
+font-family: 'Open Sans', sans-serif;
+}
+
+.view{
+background-image: url('pexels-photo-279574(1).jpeg') ;
+background-repeat: no-repeat;
+background-size:cover;
+min-height:680px;
+z-index:-10;
+-webkit-background-size: cover;
+-moz-background-size: cover;
+-o-background-size: cover; }
+
+
+.topbakground{
+background-color:rgba(0,0,0,0.5);
+-webkit-background-color:rgba(0,0,0,0.5);
+-moz-background-color:rgba(0,0,0,0.5);
+-o-background-color:rgba(0,0,0,0.5);
+background-size:cover;
+min-height:680px;
+z-index:-10;}
+
+/* text1 in navbar */
+#text1{ color:#565B61 ;}
+
+#text2{ color:#9DA2AA ;}
+
+#fa3{color:#007A60 ;
+ font-size:30px;}
+
+.designrow{
+color:white;
+padding-top:150px;}
+
+.a_in_footer {
+    text-decoration: none;
+    color:#00B385;
+    font-size:15px;}
+
+@media only screen and (width :1920px) {
+.view{
+height:850px;
+}
+.topbakground{
+height:850px;
+}
+.possition{
+ position: fixed;}
+
+.designrow{
+color:white;
+padding-top:350px;}
+
+
+}
+@media only screen and (min-device-width : 980px) and (max-device-width : 1279px) {
+.view{
+height:100%;
+}
+.topbakground {
+height:1280px;
+}
+.a_in_footer {
+    text-decoration: none;
+    color:#00B385;
+    font-size:10px;}
+
+.possition{
+ position: fixed;}
+
+.designrow{
+color:white;
+padding-top:350px;}
+
+}
+@media only screen and (min-device-width : 800px) and (max-device-width : 1279px) {
+.view{
+min-height:1270px;
+}
+.topbakground{
+min-height:1270px;
+}
+.possition{
+ position: fixed;}
+}
+
+@media only screen and (min-device-width : 360px) and (max-device-width : 640px) {
+.view{
+height:1000px;
+}
+.topbakground{
+height:1000px;
+}
+.a_in_footer {
+    text-decoration: none;
+    color:#00B385;
+    font-size:10px;
+    padding-left:15px;}
+
+}
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+.view{
+height:1000px;
+}
+.topbakground{
+height:1000px;
+}
+.a_in_footer {
+    text-decoration: none;
+    color:#00B385;
+    font-size:12px;
+    padding-left:20px;}
+.designrow{
+color:white;
+padding-top:150px;}
+}
+
+@media only screen and (min-device-width : 768px) {
+.view{
+height:1024px;
+}
+.topbakground{
+height:1024px;
+}
+.a_in_footer {
+    text-decoration: none;
+    color:#00B385;
+    font-size:11px;}
+.possition{
+ position: fixed;}
+}

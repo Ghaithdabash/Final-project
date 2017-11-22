@@ -11,7 +11,7 @@ from django.db import models
 
 
 class Follower(models.Model):
-    id = models.BigIntegerField(primary_key=True)
+    id = models.BigAutoField(primary_key=True)
     followerid = models.BigIntegerField()
     userid = models.ForeignKey('AuthUser', models.DO_NOTHING, db_column='userid')
     connected = models.BooleanField()
@@ -22,7 +22,7 @@ class Follower(models.Model):
 
 
 class Following(models.Model):
-    id = models.BigIntegerField(primary_key=True)
+    id = models.BigAutoField(primary_key=True)
     followingid = models.BigIntegerField()
     userid = models.ForeignKey('AuthUser', models.DO_NOTHING, db_column='userid')
 
@@ -32,8 +32,8 @@ class Following(models.Model):
 
 
 class Photo(models.Model):
-    id = models.BigIntegerField(primary_key=True)
-    photo = models.ImageField(max_length=256)
+    id = models.BigAutoField(primary_key=True)
+    photo = models.CharField(max_length=256)
     userid = models.ForeignKey('AuthUser', models.DO_NOTHING, db_column='userid')
     textid = models.ForeignKey('Text', models.DO_NOTHING, db_column='textid')
 
@@ -43,12 +43,12 @@ class Photo(models.Model):
 
 
 class Reply(models.Model):
-    id = models.BigIntegerField(primary_key=True)
+    id = models.BigAutoField(primary_key=True)
     reply = models.CharField(max_length=256)
     textid = models.ForeignKey('Text', models.DO_NOTHING, db_column='textid')
     userid = models.ForeignKey('AuthUser', models.DO_NOTHING, db_column='userid')
     date = models.DateTimeField()
-    likecount = models.IntegerField()
+    likecount = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -56,7 +56,7 @@ class Reply(models.Model):
 
 
 class Replylike(models.Model):
-    id = models.BigIntegerField(primary_key=True)
+    id = models.BigAutoField(primary_key=True)
     replyid = models.ForeignKey(Reply, models.DO_NOTHING, db_column='replyid')
     userid = models.ForeignKey('AuthUser', models.DO_NOTHING, db_column='userid')
 
@@ -66,7 +66,7 @@ class Replylike(models.Model):
 
 
 class Texlike(models.Model):
-    id = models.BigIntegerField(primary_key=True)
+    id = models.BigAutoField(primary_key=True)
     textid = models.ForeignKey('Text', models.DO_NOTHING, db_column='textid')
     userid = models.ForeignKey('AuthUser', models.DO_NOTHING, db_column='userid')
 
@@ -76,12 +76,12 @@ class Texlike(models.Model):
 
 
 class Text(models.Model):
-    id = models.BigIntegerField(primary_key=True)
+    id = models.BigAutoField(primary_key=True)
     text = models.CharField(max_length=256)
     userid = models.ForeignKey('AuthUser', models.DO_NOTHING, db_column='userid')
     expand = models.BooleanField()
     date = models.DateTimeField()
-    likecount = models.IntegerField()
+    likecount = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -89,15 +89,15 @@ class Text(models.Model):
 
 
 class Userprofile(models.Model):
-    id = models.BigIntegerField(primary_key=True)
-    profilepic = models.ImageField(max_length=256, blank=True, null=True)
+    id = models.BigAutoField(primary_key=True)
+    profilepic = models.CharField(max_length=256, blank=True, null=True)
     portfolio_field = models.CharField(db_column='portfolio ', max_length=256, blank=True, null=True)  # Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
     bio = models.CharField(max_length=256, blank=True, null=True)
     userid = models.ForeignKey('AuthUser', models.DO_NOTHING, db_column='userid')
-    satus = models.BooleanField()
-    postcount = models.IntegerField()
-    followercount = models.IntegerField()
-    followingcount = models.IntegerField()
+    satus = models.NullBooleanField()
+    postcount = models.IntegerField(blank=True, null=True)
+    followercount = models.IntegerField(blank=True, null=True)
+    followingcount = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -105,7 +105,7 @@ class Userprofile(models.Model):
 
 
 class Video(models.Model):
-    id = models.BigIntegerField(primary_key=True)
+    id = models.BigAutoField(primary_key=True)
     video = models.CharField(max_length=256)
     userid = models.ForeignKey('AuthUser', models.DO_NOTHING, db_column='userid')
     textid = models.ForeignKey(Text, models.DO_NOTHING, db_column='textid')
