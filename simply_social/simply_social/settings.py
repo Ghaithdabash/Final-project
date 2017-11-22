@@ -133,4 +133,4 @@ STATICFILES_DIRS = [
 MEDIA_ROOT = MEDIA_DIR
 MEDIA_URL = '/media/'
 
-LOGIN_REDIRECT_URL = 'https://www.google.com'
+LOGIN_REDIRECT_URL = 'social_app/home.html'
