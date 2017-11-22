@@ -65,7 +65,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'social_app.context_processors.register'
             ],
         },
     },
@@ -133,4 +132,4 @@ STATICFILES_DIRS = [
 MEDIA_ROOT = MEDIA_DIR
 MEDIA_URL = '/media/'
 
-LOGIN_REDIRECT_URL = 'social_app/home.html'
+LOGIN_REDIRECT_URL = '/'

@@ -13,18 +13,25 @@
                     </p>
                 </div>
       <div class="col-md-4 text-center">
-        <form action="{% url 'login' %}" method="POST">
-         {% csrf_token %}
-         {{ form.as_p }}
+        <form action="{% url 'login' %}" method="post">
+          {% csrf_token %}
+          <label for="username">UserName:</label>
+          <input type="text" name="username" placeholder="Enter UserName">
 
+          <label for="password">Password</label>
+          <input type="password" name="password">
 
-         <input type="submit" class="btn btn-primary" value="login">
+          <input type="submit" value="Login" class="btn btn-primary">
+        </form>
+
 
         </form>
         <div class="row">
           <div class="col-md-12">
+            <a href="{% url 'register' %}" class="btn btn-primary">R</a>
 
-                       <form enctype="multipart/form-data" method="POST">
+
+                       <form action="" enctype="multipart/form-data" method="POST">
                          {% csrf_token %}
                          {% for field in user_form %}
                          <p>
@@ -36,8 +43,15 @@
                          </p>
                        {% endfor %}
                        {{ user_img.as_p }}
-                       <button type="submit" class="btn btn-success">Sign</button>
+
+                       <div id="r_button">
+
+                       <input type="submit" value="Register" class="btn btn-primary">
+
+                     </div>
                        </form>
+
+
           </div>
                   </div>
             </div>
