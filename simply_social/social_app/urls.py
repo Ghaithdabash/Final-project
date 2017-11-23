@@ -8,5 +8,6 @@ urlpatterns = [
         url(r'^login/$',views.user_login,name='login'),
         url(r'^register/$',views.register,name='register'),
         url(r'^home/$',views.Home.as_view(),name='home'),
+        url(r'search/$',views.SearchListView.as_view(), name='search_list_view'),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

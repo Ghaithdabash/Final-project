@@ -3,98 +3,103 @@
 {% load static %}
 <html>
  <head>
-  <meta charset="utf-8">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-	<!---font--->
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
- 	<link  href="{% static 'CSS/social.css' %}" rel="stylesheet">
+    <meta charset="utf-8">
+  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  	<!---font--->
+  	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+   	<link  href="{% static 'CSS/social.css' %}" rel="stylesheet">
  </head>
-<body>
-<div class="container-fluid">
-  <div class="row">
-	   <div class="col-md-12">
-       <nav class="navbar fixed-top navbar-inverse" style="background-color:black; height:60px;"  id="nav1">
-<!-- Nav brand -->
-        <div class="col-md-4 text-center">
-                   				<a class="navbar-brand" href="#">
-                    					<i class="fa fa-comments m-2" id="fa3" aria-hidden="true"></i><span id="text1">simple</span><span id="text2">social<span>
-                    				</a>
-                			</div>
-            				</nav>
-				</div>
-   		</div>
-<div class="row view">
-  <div class="col-md-12">
-          <div class="row designrow topbakground justify-content-center">
-                <div class="col-md-4 text-center">
-                    <p>   Position an element at the top of the viewport, from edge to edge.
+ <body>
+   <div class="container-fluid">
+     <header>
+      <div class="row">
+        <div class="col-md-12">
+            <nav class="navbar fixed-top navbar-inverse" style="background-color:black; height:60px;"  id="nav1">
+  <!-- Nav brand -->
+              <div class="col-md-4 text-center">
+                <a class="navbar-brand" href="#">
+                  <i class="fa fa-comments m-2" id="fa3" aria-hidden="true"></i><span id="text1">simple</span><span id="text2">social<span>
+                </a>
+              </div>
+            </nav>
+        </div>
+      </div>
+     </header>
+
+<!-- image and login and register ------------------>
+    <div class="row view">
+      <div class="col-md-12">
+        <div class="row designrow topbakground justify-content-center">
+          <div class="col-md-4 text-center">
+            <h1>About Us</h1>
+            <p>   Position an element at the top of the viewport, from edge to edge.
                             Be sure you understand the ramifications of fixed position in your project;
                            you may need to add aditional CSS.
-                    </p>
-                </div>
-                <div class="col-md-4 text-center">
-                  <form action="{% url 'login' %}" method="post">
-                    {% csrf_token %}
-                    <table>
-                      <tr>
-                        <td>
-                          <label for="username">UserName:</label>
-                        </td>
-                        <td>
-                          <input type="text" name="username" placeholder="Enter UserName">
-                        </td>
-                      </tr>
-                      <tr>
-                        <td><label for="password">Password</label></td>
-                        <td><input type="password" name="password"placeholder="Enter Password"></td>
-                      </tr>
-                      <tr>
-                      <td></td>
-                      <td><input type="submit" class="btn btn-success" id="btn" value="login">
-                      <span><a href="{% url 'register' %}"  onclick="second()" class="btn btn-primary">register</a></span></td>
-                      </tr>
-                </table>
-                </form>
-                <br>
+            </p>
+          </div>
+          <!-- login start -->
+          <div class="col-md-4 text-center">
+            <form action="{% url 'login' %}" method="post">
+              {% csrf_token %}
+              <table>
+                <tr>
+                  <td>
+                    <label for="username">UserName:</label>
+                  </td>
+                  <td>
+                    <input type="text" name="username" placeholder="Enter UserName">
+                  </td>
+                </tr>
+                <tr>
+                  <td><label for="password">Password</label></td>
+                  <td><input type="password" name="password"placeholder="Enter Password"></td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td><input type="submit" class="btn btn-success" id="btn" value="login">
+                      <span><a href="{% url 'register' %}" class="btn btn-primary">register</a></span></td>
+                </tr>
+              </table>
+            </form>
+              <br>
                 <!-- register form -->
-                <div class="row">
-                 			<div class="col-md-12">
-
-                    				<form enctype="multipart/form-data" method="POST">
-                      					{% csrf_token %}
-                       					<table>
-                        				{% for field in user_form %}
-                          					<tr>
-								    <td>{{ field.label_tag }}</td>
-								    <td>{{ field }}</td>
-								</tr>
-                            				{% for error in field.errors %}
-                         					<p style="color: red">{{ error }}</p>
-                            				{% endfor %}
-                          				{% endfor %}
-                        				</table>
-                        				<table>
-
-                      <td>{{ user_img.gender.label_tag }}</td>
-								      <td>{{ user_img.gender }}</td>
-
-                    <tr>
-								      <td>{{ user_img.profilepic.label_tag }}</td>
-								      <td>{{ user_img.profilepic }}</td>
-                    </tr>
-
-								 <tr>
-								      <td><button type="submit" class="btn btn-success r_button">Sign up</button></td>
+          <div class="row">
+            <div class="col-md-12">
+              <form enctype="multipart/form-data" method="POST"  >
+        		      {% csrf_token %}
+         					<table>
+            			 {% for field in user_form %}
+              		 <tr>
+          				   <td>{{ field.label_tag }}</td>
+          		       <td>{{ field }}</td>
+                	 </tr>
+                  	{% for error in field.errors %}
+                     <p style="color: red">{{ error }}</p>
+                    {% endfor %}
+                    {% endfor %}
+                  <tr>
+                    <td>{{ user_img.gender.label_tag }}</td>
+              			<td><input type="radio" name="gender" value="F">Female
+                    <input type="radio" name="gender" value="M">Male</td>
+                  </tr>
+                </table>
+                <table>
+                 <tr>
+								   <td>{{ user_img.profilepic.label_tag }}</td>
+								   <td>{{ user_img.profilepic }}</td>
 								 </tr>
-                        				</table>
-                   				 </form>
-                			</div>
-              			</div>
-                  </div>
-              </div>
+								 <tr>
+								      <td><button type="submit" class="btn btn-success" >Sign up</button></td>
+								 </tr>
+               </table>
+             </form>
+           </div>
+          </div>
         </div>
+      </div>
   </div>
+</div>
 <footer>
   <div class="row">
 

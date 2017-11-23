@@ -24,7 +24,7 @@ class Home(TemplateView):
     template_name = 'social_app/home.html'
     #def dispatch(self, request, *args, **kwargs):
     #    if request.user.is_authenticated():
-    #        return HttpResponseRedirect('https://www.google.com')
+    #        return HttpResponseRedirect('social_app/home.html')
     #    return super(Home, self).dispatch(request, *args, **kwargs)
 
 
@@ -50,6 +50,27 @@ def user_login(request):
     else:
         return render(request,'registration/login.html',{})
 
+class SearchListView(ListView):
+   template_name = "base.html"
+   """
+   Display a List page filtered by the search query.
+   """
+   paginate_by = 10
+   def get_queryset(self):
+
+       search_value = self.request.GET['q']
+       if "@" in search_value:
+           result_objects = User.objects.filter(email__icontains=search_value)
+           print(result_objects[0].username)
+           return result_objects
+       else:
+           result_objects = User.objects.filter(username__icontains=search_value)
+           print(result_objects[0].username)
+           return result_objects
+          # return result_objects
+
+
+
 def register(request):
      registered = False
 
@@ -71,8 +92,15 @@ def register(request):
              profile.followercount = 0
              profile.followingcount = 0
 
+
+
              if 'profilepic' in request.FILES:
                  profile.profilepic= request.FILES['profilepic']
+
+             if not 'profilepic' in request.FILES and profile.gender == 'M':
+                 profile.profilepic = 'profile_pics/male-default-pic-big.jpg'
+             if not 'profilepic' in request.FILES and profile.gender == 'F':
+                 profile.profilepic = 'profile_pics/avatar-female.png'
 
              profile.save()
              registered = True

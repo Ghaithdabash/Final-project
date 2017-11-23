@@ -8,10 +8,7 @@ from social_app.models import Userprofile
 
 
 class UserProfileForm(forms.ModelForm):
-    CHOICES = (('M', 'Male',), ('F', 'Female',))
-    gender = forms.TypedChoiceField(
-                choices=CHOICES, widget=forms.RadioSelect()
-                )
+
     class Meta():
         model = Userprofile
         fields = ('profilepic','gender',)
