@@ -74,7 +74,6 @@ def register(request):
              if 'profilepic' in request.FILES:
                  profile.profilepic= request.FILES['profilepic']
 
-
              profile.save()
              registered = True
 

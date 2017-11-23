@@ -2,11 +2,12 @@ body{
 font-family: 'Open Sans', sans-serif;
 }
 
+
 .view{
 background-image: url('pexels-photo-279574(1).jpeg') ;
 background-repeat: no-repeat;
 background-size:cover;
-min-height:680px;
+min-height:600px;
 z-index:-10;
 -webkit-background-size: cover;
 -moz-background-size: cover;
@@ -20,7 +21,7 @@ background-color:rgba(0,0,0,0.5);
 -o-background-color:rgba(0,0,0,0.5);
 background-size:cover;
 min-height:680px;
-z-index:-10;}
+z-index:-5;}
 
 /* text1 in navbar */
 #text1{ color:#565B61 ;}
@@ -41,21 +42,20 @@ padding-top:150px;}
 
 @media only screen and (width :1920px) {
 .view{
-height:850px;
+height:900px;
 }
 .topbakground{
-height:850px;
+height:900px;
 }
 .possition{
  position: fixed;}
 
 .designrow{
 color:white;
-padding-top:350px;}
-
-
+padding-top:250px;}
 }
-@media only screen and (min-device-width : 980px) and (max-device-width : 1279px) {
+
+@media only screen and (device-width : 980px) and (device-height: 1280px) {
 .view{
 height:100%;
 }
@@ -69,13 +69,12 @@ height:1280px;
 
 .possition{
  position: fixed;}
-
-.designrow{
-color:white;
-padding-top:350px;}
-
+ .designrow{
+ color:white;
+ padding-top:350px;}
 }
-@media only screen and (min-device-width : 800px) and (max-device-width : 1279px) {
+
+@media only screen and (device-width : 800px) and (device-height: 1280px) {
 .view{
 min-height:1270px;
 }
@@ -84,9 +83,13 @@ min-height:1270px;
 }
 .possition{
  position: fixed;}
+.designrow{
+color:white;
+padding-top:350px;}
 }
 
-@media only screen and (min-device-width : 360px) and (max-device-width : 640px) {
+
+@media only screen and (min-device-width : 360px) and (device-height: 640px){
 .view{
 height:1000px;
 }
@@ -99,8 +102,13 @@ height:1000px;
     font-size:10px;
     padding-left:15px;}
 
+.designrow{
+    color:white;
+    padding-top:110px;}
+
 }
-@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+
+@media only screen and (device-width : 320px) and (device-height: 480px){
 .view{
 height:1000px;
 }
@@ -112,12 +120,14 @@ height:1000px;
     color:#00B385;
     font-size:12px;
     padding-left:20px;}
+
 .designrow{
-color:white;
-padding-top:150px;}
+    color:white;
+    padding-top:95px;}
+
 }
 
-@media only screen and (min-device-width : 768px) {
+@media only screen and (device-width : 768px) and (device-height: 1024px) {
 .view{
 height:1024px;
 }
@@ -130,4 +140,7 @@ height:1024px;
     font-size:11px;}
 .possition{
  position: fixed;}
+ .designrow{
+     color:white;
+     padding-top:180px;}
 }

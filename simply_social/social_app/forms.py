@@ -8,13 +8,18 @@ from social_app.models import Userprofile
 
 
 class UserProfileForm(forms.ModelForm):
-   class Meta():
-       model = Userprofile
-       fields = ('profilepic',)
+    CHOICES = (('M', 'Male',), ('F', 'Female',))
+    gender = forms.TypedChoiceField(
+                choices=CHOICES, widget=forms.RadioSelect()
+                )
+    class Meta():
+        model = Userprofile
+        fields = ('profilepic','gender',)
 
-   def __init__(self,*args,**kwargs):
-      super().__init__(*args,**kwargs)
-      self.fields['profilepic'].label = 'Profile Picture'
+    def __init__(self,*args,**kwargs):
+        super().__init__(*args,**kwargs)
+        self.fields['gender'].label = 'Gender'
+        self.fields['profilepic'].label = 'Profile Picture'
 
 class UserForm(UserCreationForm):
 
