@@ -1,13 +1,29 @@
 body{
-  font-family: 'Open Sans', sans-serif;
+font-family: 'Open Sans', sans-serif;
 }
-
 .a_in_footer-base{
   font-size: 10px;
   color: #007A60;
 }
 
-
+.section-allpost-photos-videeos{
+  font-size: 10px;
+  color: white;
+}
+.padding-fa-in-image{
+  padding-left:90px;
+}
+.padding-fa-in-image2{
+  padding-left:265px;
+}
+.a-fa-in-image{
+  color: white;
+  text-decoration: none;
+}
+.a-fa-in-image:hover{
+  color: white;
+  text-decoration: none;
+}
 
 .baseview{
  background-image: url('waterfall-668aecdf0e4165bd99516be539482dccd62921846a9cb178d932a070304d4bdd.jpg') ;
@@ -19,7 +35,6 @@ body{
  -moz-background-size: cover;
  -o-background-size: cover;
 }
-
 .baseoverlay{
  background-color:rgba(0,0,0,0.5);
  -webkit-background-color:rgba(0,0,0,0.5);
@@ -29,7 +44,6 @@ body{
  min-height:390px;
  z-index:-5;
 }
-
 .baseoverlay2{
  background-color:rgba(56,233,196,0.5);
  -webkit-background-color:rgba(56,233,196,0.5);
@@ -39,84 +53,80 @@ body{
  min-width: 300px;
  z-index:-2;
 }
-
-#post-in-image{
-  color:#26C2AE;
-  background-color: transparent;
-  -webkit-background-color:transparent;
-  -moz-background-color:transparent;
-  -o-background-color:transparent;
-  width: 450px;
-  border: none;
-  font-size: 30px;
+.designrow-home{
+  padding-top:20px;
 }
+.size-of-card{width: 465px;}
+.size-of-card2{
+width:300px;
 
+}
+#post-in-image{
+color:#26C2AE;
+background-color: transparent;
+-webkit-background-color:transparent;
+-moz-background-color:transparent;
+-o-background-color:transparent;
+width: 450px;
+border: none;
+font-size: 30px;
+}
+.reply-icon{
+  margin-left:350px;
+  position: relative;
+}
 .designrow2{
   color:#26C2AE;
-  padding-top:90px;
+  padding-top:120px;
 }
-
 .fa-post{
   padding-top: 40px;
 }
-
 #modal-container {
-  background-color: #FEFEFE;
-  margin-left: 5%;
-  margin-right: 5%;
-  height: 87px;
-}
+background-color: #FEFEFE;
+margin-left: 5%;
+margin-right: 5%;
+height: 87px;
 
+}
 #fachat{
  color:#007A60 ;
 }
-
 #exampleModal3Label {
-  color: #868B93 ;
-  font-family: 'Source Sans Pro';
-  margin-left: 1.5%;
-  font-size: normal;
+color: #868B93 ;
+font-family: 'Source Sans Pro';
+margin-left: 1.5%;
+font-size: normal;
 }
-
 #dialog {
  background-color: #DCDFE3 ;
 }
 
-
-
 .modal-footer{
-  color: #868B93 ;
+color: #868B93 ;
 }
-
 #exampleModal3{
-  background-color: black;
+background-color: black;
 }
-
-
 
 #post {
-  margin-right:0px;
-  background-color: #01B286 ;
-  color:#FDFEFE ;}
+margin-right:0px;
+background-color: #01B286 ;
+color:#FDFEFE ;}
+
+
 
 /*    nav in home page                 */
-
 #input_container {
    position:relative;
  /*  padding:0 0 0 20px;
-
    margin:0 20px;
-
    background:#ddd;
-
    direction: ltr; */
    width: 200px;
 }
-
 #image-nav{padding-left: 60px;}
-
 #search-nav{padding-left: 360px;}
-
 #input {
    color: white;
    height:30px;
@@ -129,7 +139,6 @@ body{
    border-color: #565B61;
    padding-left: 10px;
 }
-
 #input_img {
    position:absolute;
    bottom:2px;
@@ -138,36 +147,30 @@ body{
    height:20px;
    padding-right: 25px;
 }
-
 /*  end  */
 
 
-
-
-
 .view{
-  background-image: url('pexels-photo-279574(1).jpeg') ;
-  background-repeat: no-repeat;
-  background-size:cover;
-  min-height:700px;
-  z-index:-10;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover; }
+background-image: url('pexels-photo-279574(1).jpeg') ;
+background-repeat: no-repeat;
+background-size:cover;
+min-height:700px;
+z-index:-10;
+-webkit-background-size: cover;
+-moz-background-size: cover;
+-o-background-size: cover; }
+
 
 .topbakground{
-  background-color:rgba(0,0,0,0.5);
-  -webkit-background-color:rgba(0,0,0,0.5);
-  -moz-background-color:rgba(0,0,0,0.5);
-  -o-background-color:rgba(0,0,0,0.5);
-  background-size:cover;
-  min-height:700px;
-  z-index:-5;}
-
-
+background-color:rgba(0,0,0,0.5);
+-webkit-background-color:rgba(0,0,0,0.5);
+-moz-background-color:rgba(0,0,0,0.5);
+-o-background-color:rgba(0,0,0,0.5);
+background-size:cover;
+min-height:700px;
+z-index:-5;}
 
 /* text1 in navbar */
-
 #text1{ color:#565B61 ;}
 
 #text2{ color:#9DA2AA ;}
@@ -175,13 +178,9 @@ body{
 #fa3{color:#007A60 ;
  font-size:30px;}
 
-
-
 .designrow{
-  color:white;
-  padding-top:130px;}
-
-
+color:white;
+padding-top:130px;}
 
 .a_in_footer {
     text-decoration: none;
@@ -189,209 +188,106 @@ body{
     font-size:15px;}
 
 @media only screen and (width :1920px) {
-
 .view{
-
 height:900px;
-
 }
-
 .topbakground{
-
 height:900px;
-
 }
-
 .possition{
-
  position: fixed;}
 
-
-
 .designrow{
-
 color:white;
-
 padding-top:250px;}
-
 }
-
-
 
 @media only screen and (device-width : 980px) and (device-height: 1280px) {
-
 .view{
-
 height:100%;
-
 }
-
 .topbakground {
-
 height:1280px;
-
 }
-
 .a_in_footer {
-
     text-decoration: none;
-
     color:#00B385;
-
     font-size:10px;}
 
-
-
 .possition{
-
  position: fixed;}
-
  .designrow{
-
  color:white;
-
  padding-top:350px;}
-
 }
-
-
 
 @media only screen and (device-width : 800px) and (device-height: 1280px) {
-
 .view{
-
 min-height:1270px;
-
 }
-
 .topbakground{
-
 min-height:1270px;
-
 }
-
 .possition{
-
  position: fixed;}
-
 .designrow{
-
 color:white;
-
 padding-top:350px;}
-
 }
-
-
-
 
 
 @media only screen and (min-device-width : 360px) and (device-height: 640px){
-
 .view{
-
 height:1000px;
-
 }
-
 .topbakground{
-
 height:1000px;
-
 }
-
 .a_in_footer {
-
     text-decoration: none;
-
     color:#00B385;
-
     font-size:10px;
-
     padding-left:15px;}
 
-
-
 .designrow{
-
     color:white;
-
     padding-top:110px;}
 
-
-
 }
-
-
 
 @media only screen and (device-width : 320px) and (device-height: 480px){
-
 .view{
-
 height:1000px;
-
 }
-
 .topbakground{
-
 height:1000px;
-
 }
-
 .a_in_footer {
-
     text-decoration: none;
-
     color:#00B385;
-
     font-size:10px;
-
     padding-left:20px; }
 
-
-
 .designrow{
-
     color:white;
-
     padding-top:60px;}
 
-
-
 }
-
-
 
 @media only screen and (device-width : 768px) and (device-height: 1024px) {
-
 .view{
-
 height:1024px;
-
 }
-
 .topbakground{
-
 height:1024px;
-
 }
-
 .a_in_footer {
-
     text-decoration: none;
-
     color:#00B385;
-
     font-size:11px;}
-
 .possition{
-
  position: fixed;}
-
  .designrow{
-
      color:white;
-
      padding-top:180px;}
-
 }

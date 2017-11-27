@@ -94,21 +94,20 @@
                           </button>
                       </div>
 
-                      <form class="" action="{% url 'new_post' %}" method="POST">
+                      <form enctype="multipart/form-data" action="{% url 'new_post' %}" method="POST">
                         {% csrf_token %}
                         <div class="baseoverlay2 pl-3">
 
                           <input type="text" name="p" placeholder="What's on your mind?" class="pt-4">
-
-                            <i class="fa fa-camera fa-md" aria-hidden="true">Add photo<input type="file" name="pic"></i>
-
-                        </div>
-
-                      </form>
                         <div class="modal-footer  justify-content-start">
-                          <i class="fa fa-camera fa-lg" aria-hidden="true"></i>
+                            <i class="fa fa-camera fa-md" aria-hidden="true">Add photo<input type="file" name="pic"></i>
                             <button type="submit" class="save btn btn-default" name="">Post</button>
+
                       </div>
+                            </div>
+                      </form>
+
+
                     </div>
                   </div>
                 </div>
@@ -186,22 +185,22 @@
 
       <div class="row designrow2 baseoverlay justify-content-center">
 
-        <form class="" action="{% url 'new_post' %}" method="POST">
+        <form enctype="multipart/form-data" action="{% url 'new_post' %}" method="POST">
           {% csrf_token %}
           <div class="baseoverlay2 pl-3">
 
             <input type="text" name="p" placeholder="What's on your mind?" id="post-in-image" class="pt-4">
             <div class="fa-post">
-              <i class="fa fa-camera fa-md" aria-hidden="true">Add photo<input type="file" name="pic"></i>
-              <span class="pl-5"><i class="fa fa-video-camera fa-md" aria-hidden="true"></i> Add Video</span>
-
-
+              <!--<input type="file" name="pic">-->
+              <input type="file" name="photo">
             </div>
 
           </div>
 
         </form>
+        {% block content2 %}
 
+        {% endblock  %}
       </div>
 
     </div>

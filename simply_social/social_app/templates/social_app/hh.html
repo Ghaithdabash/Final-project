@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+
+<div class="jumbotron">
+
+<div class="centerstage">
+  {% for post in post_list %}
+  <div class="post">
+    {% if post.text %}
+    <h1><a href="">{{ post.text }}</a></h1>
+    {% endif %}
+
+    {% if post.video %}
+    <iframe width="560" height="345" src="https://www.youtube.com/embed/{{ post.video }}?rel=0" frameborder="0" allowfullscreen></iframe>
+    {% endif %}
+
+    {% if post.photo %}
+    <img src={{post.photo.url}}>
+    {% endif %}
+
+    <div class="date">
+      <p>Published on: {{ post.date }}</p>
+    </div>
+
+
+  </div>
+  {% endfor %}
+</div>
+
+</div>
+{% endblock %}

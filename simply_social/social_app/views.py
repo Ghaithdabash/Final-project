@@ -13,6 +13,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import login, logout, authenticate
+import re
 # Create your views here.
 
 
@@ -34,6 +35,21 @@ class PostListView(ListView,LoginRequiredMixin):
 #        form.instance.date = timezone.now()
 #        form.instance.likecount = 0
 #        return super(CreateTextView, self).form_valid(form)
+def get_youtube_urls(inputv):
+
+    youtube_regex = (
+        r'(https?://)?(www\.)?'
+        '(youtube|youtu|youtube-nocookie)\.(com|be)/'
+        '(watch\?v=|embed/|v/|.+\?v=)?([^&=%\?]{11})')
+
+    matches = re.findall(youtube_regex, inputv)
+
+
+    for url in matches:
+        y_id = url[-1]        # from last index of `matches` list.
+        if len(y_id) == 11:   # check if `id` is valid or not.
+            urls = y_id
+    return urls
 
 def newpost(request):
 
@@ -45,7 +61,9 @@ def newpost(request):
          text = text_form.save(commit=False)
          a = AuthUser.objects.get(id=request.user.id)
          if "youtube.com" in input_value:
-             text.video = input_value
+             url_id = get_youtube_urls(input_value)
+             print(url_id)
+             text.video = url_id
          else:
              text.text = input_value
          text.photo = pic_value
@@ -61,7 +79,6 @@ def newpost(request):
          text.save()
 
          return HttpResponseRedirect(reverse('home'))
-
 
 
 ########################################################################################################
