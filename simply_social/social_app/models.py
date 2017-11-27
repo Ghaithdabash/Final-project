@@ -8,6 +8,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.core.urlresolvers import reverse
 
 
 class Follower(models.Model):
@@ -31,21 +32,10 @@ class Following(models.Model):
         db_table = 'Following'
 
 
-class Photo(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    photo = models.ImageField(max_length=256)
-    userid = models.ForeignKey('AuthUser', models.DO_NOTHING, db_column='userid')
-    textid = models.ForeignKey('Text', models.DO_NOTHING, db_column='textid')
-
-    class Meta:
-        managed = False
-        db_table = 'Photo'
-
-
 class Reply(models.Model):
     id = models.BigAutoField(primary_key=True)
     reply = models.CharField(max_length=256)
-    textid = models.ForeignKey('Text', models.DO_NOTHING, db_column='textid')
+    textid = models.ForeignKey('Post', models.DO_NOTHING, db_column='textid')
     userid = models.ForeignKey('AuthUser', models.DO_NOTHING, db_column='userid')
     date = models.DateTimeField()
     likecount = models.IntegerField(blank=True, null=True)
@@ -67,7 +57,7 @@ class Replylike(models.Model):
 
 class Texlike(models.Model):
     id = models.BigAutoField(primary_key=True)
-    textid = models.ForeignKey('Text', models.DO_NOTHING, db_column='textid')
+    textid = models.ForeignKey('Post', models.DO_NOTHING, db_column='textid')
     userid = models.ForeignKey('AuthUser', models.DO_NOTHING, db_column='userid')
 
     class Meta:
@@ -75,45 +65,21 @@ class Texlike(models.Model):
         db_table = 'Texlike'
 
 
-class Text(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    text = models.CharField(max_length=256)
-    userid = models.ForeignKey('AuthUser', models.DO_NOTHING, db_column='userid')
-    expand = models.BooleanField()
-    date = models.DateTimeField()
-    likecount = models.IntegerField(blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'Text'
-
-
 class Userprofile(models.Model):
     id = models.BigAutoField(primary_key=True)
-    profilepic = models.ImageField(max_length=256, blank=True, null=True, upload_to="profile_pics")
+    profilepic = models.ImageField(max_length=256, blank=True, null=True, upload_to='profile_pics')
     portfolio_field = models.CharField(db_column='portfolio ', max_length=256, blank=True, null=True)  # Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
     bio = models.CharField(max_length=256, blank=True, null=True)
     userid = models.ForeignKey('AuthUser', models.DO_NOTHING, db_column='userid')
-    satus = models.NullBooleanField()
     postcount = models.IntegerField(blank=True, null=True)
     followercount = models.IntegerField(blank=True, null=True)
     followingcount = models.IntegerField(blank=True, null=True)
     gender = models.CharField(max_length=10)
+    status = models.NullBooleanField()
 
     class Meta:
         managed = False
         db_table = 'Userprofile'
-
-
-class Video(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    video = models.CharField(max_length=256)
-    userid = models.ForeignKey('AuthUser', models.DO_NOTHING, db_column='userid')
-    textid = models.ForeignKey(Text, models.DO_NOTHING, db_column='textid')
-
-    class Meta:
-        managed = False
-        db_table = 'Video'
 
 
 class AuthGroup(models.Model):
@@ -224,3 +190,21 @@ class DjangoSession(models.Model):
     class Meta:
         managed = False
         db_table = 'django_session'
+
+
+class Post(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    text = models.CharField(max_length=256, blank=True, null=True)
+    userid = models.ForeignKey(AuthUser, models.DO_NOTHING, db_column='userid')
+    expand = models.BooleanField()
+    date = models.DateTimeField()
+    likecount = models.IntegerField(blank=True, null=True)
+    photo = models.ImageField(max_length=256, blank=True, null=True,upload_to='posts_images')
+    video = models.URLField(max_length=256, blank=True, null=True)
+
+    def get_absolute_url(self):
+        return reverse("home", kwargs={'pk':self.pk})
+
+    class Meta:
+        managed = False
+        db_table = 'post'

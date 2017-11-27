@@ -1,7 +1,8 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from social_app.models import Userprofile
+from social_app.models import Userprofile, Post
+#from multiform import MultiForm
 #from django.db import models
 
 
@@ -24,6 +25,8 @@ class UserForm(UserCreationForm):
        model = User
        fields = ('username','first_name','last_name','email','password1','password2',)
 
+
+
   def save(self,commit=True):
       user = super(UserForm,self).save(commit=False)
       user.username = self.cleaned_data["username"]
@@ -42,6 +45,21 @@ class UserForm(UserCreationForm):
        self.fields['username'].label = 'Username'
        self.fields['first_name'].label = 'First Name'
        self.fields['last_name'].label = 'Last Name'
-       self.fields['email'].label = 'Email Address'
+       self.fields['email'].label = 'Your Email'
        self.fields['password1'].label = 'Password'
-       self.fields['password2'].label = 'Re-enter Password'
+       self.fields['password2'].label = 'Confirm'
+
+       self.fields['username'].error_messages = {'required': 'fuck you'}
+       self.fields['first_name'].required = True
+       self.fields['last_name'].required = True
+       self.fields['email'].required = True
+
+
+class NewPostForm(forms.ModelForm):
+    class Meta():
+        model = Post
+        fields = ('text','photo','video',)
+        widgets = {'userid': forms.HiddenInput(),
+                    'expand': forms.HiddenInput(),
+                    'date': forms.HiddenInput(),
+                    'likecount': forms.HiddenInput(),}

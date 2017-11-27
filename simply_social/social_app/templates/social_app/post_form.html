@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block content %}
+
+<div class="jumbotron">
+
+<h1>New Post</h1>
+
+<form enctype="multipart/form-data" method="POST">
+
+  {% csrf_token %}
+  {{ text_form.as_p }}
+  <button type="submit" class="save btn btn-default" name="">Post</button>
+</form>
+
+</div>
+{% endblock %}

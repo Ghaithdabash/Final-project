@@ -15,11 +15,11 @@
      <header>
       <div class="row">
         <div class="col-md-12">
-            <nav class="navbar fixed-top navbar-inverse" style="background-color:black; height:60px;"  id="nav1">
+            <nav class="navbar fixed-top navbar-inverse" style="background-color:#262728; height:60px;">
   <!-- Nav brand -->
-              <div class="col-md-4 text-center">
+              <div class="col-md-4 text-center ">
                 <a class="navbar-brand" href="#">
-                  <i class="fa fa-comments m-2" id="fa3" aria-hidden="true"></i><span id="text1">simple</span><span id="text2">social<span>
+                  <i class="fa fa-comments" id="fa3" aria-hidden="true"></i><span id="text1">simple</span><span id="text2">social<span>
                 </a>
               </div>
             </nav>
@@ -40,7 +40,7 @@
           </div>
           <!-- login start -->
           <div class="col-md-4 text-center">
-            <form action="{% url 'login' %}" method="post">
+            <form action="{% url 'signup_login' %}" method="post">
               {% csrf_token %}
               <table>
                 <tr>
@@ -57,8 +57,8 @@
                 </tr>
                 <tr>
                   <td></td>
-                  <td><input type="submit" class="btn btn-success" id="btn" value="login">
-                      <span><a href="{% url 'register' %}" class="btn btn-primary">register</a></span></td>
+                  <td><input type="submit" name="submit" class="btn btn-success" id="btn" value="login">
+                  </td>
                 </tr>
               </table>
             </form>
@@ -66,7 +66,7 @@
                 <!-- register form -->
           <div class="row">
             <div class="col-md-12">
-              <form enctype="multipart/form-data" method="POST"  >
+              <form enctype="multipart/form-data" method="POST" action="{% url 'signup_login' %}" >
         		      {% csrf_token %}
          					<table>
             			 {% for field in user_form %}
@@ -74,12 +74,14 @@
           				   <td>{{ field.label_tag }}</td>
           		       <td>{{ field }}</td>
                 	 </tr>
-                  	{% for error in field.errors %}
-                     <p style="color: red">{{ error }}</p>
-                    {% endfor %}
+
                     {% endfor %}
                   <tr>
                     <td>{{ user_img.gender.label_tag }}</td>
+                    {% if user_img.gender.errors %}
+                      <p style="color: red">{{ errors }}</p>
+                    {% endif %}
+
               			<td><input type="radio" name="gender" value="F">Female
                     <input type="radio" name="gender" value="M">Male</td>
                   </tr>
@@ -90,7 +92,7 @@
 								   <td>{{ user_img.profilepic }}</td>
 								 </tr>
 								 <tr>
-								      <td><button type="submit" class="btn btn-success" >Sign up</button></td>
+								      <td><button type="submit" value="signup" name="submit" class="btn btn-success" >Sign up</button></td>
 								 </tr>
                </table>
              </form>
