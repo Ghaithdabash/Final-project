@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+{% block content2 %}
+
+<form enctype="multipart/form-data" action="{% url 'new_post' %}" method="POST">
+          {% csrf_token %}
+    <div class="baseoverlay2 pl-3">
+          <input type="text" name="p" placeholder="What's on your mind?" id="post-in-image" class="pt-4">
+          <div class="fa-post">
+              <!--<input type="file" name="pic">-->
+            <input type="file" name="photo">
+          </div>
+    </div>
+</form>
+
+<div class="col-md-12 ">
+  <div class="row designrow2 justify-content-center">
+    <div class="col-md-4 section-allpost-photos-videeos mr-5">
+          <div style="float: left;" class="pr-4">
+            <a href="{% url 'home' %}" class="a-fa-in-image text-center">ALL POSTS</a>
+          </div>
+          <div style="float: left;">
+            <a href="{% url 'photos' %}"class="a-fa-in-image pr-4 text-center">PHOTOS</a>
+          </div>
+          <div style="float: left; border-bottom:solid #00CD97;">
+          <a href="#" class="a-fa-in-image"><p class="text-center">VIDEOS</p></a>
+          </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<div class="row designrow-home justify-content-center ">
+  {% for post in videos %}
+
+           {% if post.video %}
+
+     <div class="card m-3">
+       <div class="size-of-card2">
+         <div class="media p-3">
+
+           <img class="d-flex mr-3" src={{post.profileid.profilepic.url}} width="40px" alt="">
+
+           <div class="media-body "style=" color:#50575D;">
+             <h6 class="mt-0">{{post.userid.username}}</h6>
+           </div>
+         </div>
+
+         <iframe class="pt-3" width="100%" height="300px" src="https://www.youtube.com/embed/{{ post.video }}?rel=0" frameborder="0" allowfullscreen></iframe>
+         <button class="pl-2 pb-2" style="background-color:transparent; font-size:10px; color:#AFB4B8; border:none;" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+               Expand
+         </button>
+         <div style="float: right;">
+           <i class="fa fa-reply" style="color:#DDE0E5;" aria-hidden="true"></i>
+           <i class="fa fa-heart-o pl-2" style="color:#DDE0E5;" aria-hidden="true"></i>
+           <p class="pl-2 pt-1" style="color:#DDE0E5; font-size:12px; float: right;">3M</p>
+         </div>
+         <div class="collapse" id="collapseExample">
+           <div class="media p-3">
+             <img class="d-flex mr-3" src="" width="40px" alt="Generic placeholder image">
+             <div class="media-body pr-5" style=" color:#50575D;">
+               <h6 class="mt-0"></h6>
+                  felis in faucibus.
+             </div>
+             <i class="fa fa-reply" aria-hidden="true" style="color:#DDE0E5;"></i>
+             <i class="fa fa-heart-o pl-2" aria-hidden="true" style="color:#DDE0E5;"></i>
+             <p class="pl-2" style="color:#DDE0E5; font-size:12px;">3M</p>
+           </div>
+         </div>
+       </div>
+     </div>
+
+     {% endif %}
+{% endfor %}
+</div>
+{% endblock %}

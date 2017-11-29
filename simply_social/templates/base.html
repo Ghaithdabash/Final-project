@@ -185,19 +185,6 @@
 
       <div class="row designrow2 baseoverlay justify-content-center">
 
-        <form enctype="multipart/form-data" action="{% url 'new_post' %}" method="POST">
-          {% csrf_token %}
-          <div class="baseoverlay2 pl-3">
-
-            <input type="text" name="p" placeholder="What's on your mind?" id="post-in-image" class="pt-4">
-            <div class="fa-post">
-              <!--<input type="file" name="pic">-->
-              <input type="file" name="photo">
-            </div>
-
-          </div>
-
-        </form>
         {% block content2 %}
 
         {% endblock  %}

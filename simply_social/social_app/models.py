@@ -10,8 +10,6 @@ from __future__ import unicode_literals
 from django.db import models
 from django.core.urlresolvers import reverse
 
-
-
 class Follower(models.Model):
     id = models.BigAutoField(primary_key=True)
     followerid = models.BigIntegerField()
@@ -201,15 +199,12 @@ class Post(models.Model):
     date = models.DateTimeField()
     likecount = models.IntegerField(blank=True, null=True)
     photo = models.ImageField(max_length=256, blank=True, null=True, upload_to='posts_images')
-    video = models.URLField(max_length=256, blank=True, null=True)
+    video = models.CharField(max_length=256, blank=True, null=True)
+    profileid = models.ForeignKey(Userprofile, models.DO_NOTHING, db_column='profileid')
 
     def get_absolute_url(self):
         return reverse("home", kwargs={'pk':self.pk})
-
-    def __str__(self):
-        return self.video
-
-
+    
     class Meta:
         managed = False
         db_table = 'post'

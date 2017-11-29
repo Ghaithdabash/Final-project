@@ -2,20 +2,33 @@
 
 {% load staticfiles %}
 {% block content2 %}
-<div class="col-md-12 ">
-  <div class="row designrow2 justify-content-center">
-    <div class="col-md-6 section-allpost-photos-videeos padding-fa-in-image">
-          <div style="float: left; border-bottom:solid #00CD97;">ALL POSTS</div>
-          <div style="float: left;"  class="pl-4">
-            <a href="#" class="a-fa-in-image">PHOTOS</a>
+
+<form enctype="multipart/form-data" action="{% url 'new_post' %}" method="POST">
+          {% csrf_token %}
+    <div class="baseoverlay2 pl-3">
+          <input type="text" name="p" placeholder="What's on your mind?" id="post-in-image" class="pt-4">
+          <div class="fa-post">
+              <!--<input type="file" name="pic">-->
+            <input type="file" name="photo">
           </div>
-          <div style="float: left;" class="pl-4">
-            <a href="#" class="a-fa-in-image">VIDEOS</a>
-          </div>
-          <i class="fa fa-list-ul padding-fa-in-image2" aria-hidden="true"></i>
-          <i class="fa fa-th" aria-hidden="true"></i>
     </div>
-  </div>
+</form>
+<div class="col-md-12 ">
+ <div class="row designrow2 justify-content-center">
+   <div class="col-md-6 section-allpost-photos-videeos padding-fa-in-image">
+         <div style="float: left; border-bottom:solid #00CD97;">
+           <p class="text-center">ALL POSTS</p>
+         </div>
+         <div style="float: left;"  class="pl-4">
+           <a href="{% url 'photos' %}" class="a-fa-in-image text-center">PHOTOS</a>
+         </div>
+         <div style="float: left;" class="pl-4">
+           <a href="{% url 'videos' %}" class="a-fa-in-image text-center">VIDEOS</a>
+         </div>
+         <i class="fa fa-list-ul padding-fa-in-image2" aria-hidden="true"></i>
+         <i class="fa fa-th" aria-hidden="true"></i>
+   </div>
+ </div>
 </div>
 {% endblock %}
 

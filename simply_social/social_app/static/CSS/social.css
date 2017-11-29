@@ -51,8 +51,10 @@ font-family: 'Open Sans', sans-serif;
  -o-background-color:rgba(56,233,196,0.5);
  min-height:150px;
  min-width: 300px;
- z-index:-2;
+ z-index:-3;
 }
+
+
 .designrow-home{
   padding-top:20px;
 }
@@ -200,7 +202,11 @@ height:900px;
 .designrow{
 color:white;
 padding-top:250px;}
+.padding-fa-in-image{
+  padding-left:250px;
 }
+}
+
 
 @media only screen and (device-width : 980px) and (device-height: 1280px) {
 .view{
@@ -219,7 +225,12 @@ height:1280px;
  .designrow{
  color:white;
  padding-top:350px;}
+
+ .padding-fa-in-image{
+   padding-left:10px;
+ }
 }
+
 
 @media only screen and (device-width : 800px) and (device-height: 1280px) {
 .view{
@@ -233,6 +244,13 @@ min-height:1270px;
 .designrow{
 color:white;
 padding-top:350px;}
+
+.padding-fa-in-image{
+  padding-left:50px;
+}
+.padding-fa-in-image{
+  padding-left:5px;
+}
 }
 
 
@@ -253,6 +271,10 @@ height:1000px;
     color:white;
     padding-top:110px;}
 
+.padding-fa-in-image{
+    padding-left: 0px;
+  }
+
 }
 
 @media only screen and (device-width : 320px) and (device-height: 480px){
@@ -272,6 +294,10 @@ height:1000px;
     color:white;
     padding-top:60px;}
 
+    .padding-fa-in-image{
+        padding-left: 0px;
+      }
+
 }
 
 @media only screen and (device-width : 768px) and (device-height: 1024px) {
@@ -290,4 +316,7 @@ height:1024px;
  .designrow{
      color:white;
      padding-top:180px;}
+.padding-fa-in-image{
+  padding-left: 5px;
+  }
 }
