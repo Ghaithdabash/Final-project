@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from social_app.models import Userprofile, Post
+from social_app.models import Userprofile, Post, Reply
 #from multiform import MultiForm
 #from django.db import models
 
@@ -63,3 +63,8 @@ class NewPostForm(forms.ModelForm):
                     'expand': forms.HiddenInput(),
                     'date': forms.HiddenInput(),
                     'likecount': forms.HiddenInput(),}
+
+class ReplyForm(forms.ModelForm):
+   class Meta:
+       model = Reply
+       fields = ('reply',)

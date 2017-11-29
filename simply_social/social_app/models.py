@@ -34,7 +34,7 @@ class Following(models.Model):
 class Reply(models.Model):
     id = models.BigAutoField(primary_key=True)
     reply = models.CharField(max_length=256)
-    textid = models.ForeignKey('Post', models.DO_NOTHING, db_column='textid')
+    textid = models.ForeignKey('Post', models.DO_NOTHING, db_column='textid',related_name='comments')
     userid = models.ForeignKey('AuthUser', models.DO_NOTHING, db_column='userid')
     date = models.DateTimeField()
     likecount = models.IntegerField(blank=True, null=True)
@@ -204,7 +204,7 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse("home", kwargs={'pk':self.pk})
-    
+
     class Meta:
         managed = False
         db_table = 'post'

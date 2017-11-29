@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+
+
+{% for value in result_objects %}
+ {% for item in result_profilepic %}
+
+<div class="row search">
+<div class="col-md-12 ">
+<div class="row designrow-home justify-content-center ">
+  <div class="card">
+    <div class="size-of-card">
+      <div class="media p-3">
+        <img class="d-flex mr-3" src={{item.profilepic.url}} width="40px" alt="">
+        <div class="media-body "style=" color:#50575D;">
+          <h6 class="mt-0" id="followbtnfloat">{{ value.first_name }} {{ value.last_name }}</h6>
+          <button type="submit" class="btn btn-primary">Follow</button>
+        </div>
+      </div>
+     </div>
+    </div>
+  </div>
+</div>
+</div>
+<div style="height:97px"></div>
+ {% endfor %}
+{% endfor %}
+{% endblock %}

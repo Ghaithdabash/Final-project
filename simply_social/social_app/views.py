@@ -3,9 +3,9 @@ from django.views.generic import TemplateView,CreateView, ListView,DetailView,Up
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.urls import reverse_lazy
-from social_app.forms import UserForm, UserProfileForm, NewPostForm
+from social_app.forms import UserForm, UserProfileForm, NewPostForm , ReplyForm
 from django.shortcuts import render
-from social_app.models import AuthUser, Post,Userprofile
+from social_app.models import AuthUser, Post,Userprofile , Reply
 from django.contrib.auth.forms import UserCreationForm
 import re
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -91,7 +91,7 @@ def newpost(request):
 
          text.save()
 
-         return HttpResponseRedirect(reverse('home'))
+         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 ########################################################################################################
 ########################################################################################################
@@ -102,18 +102,21 @@ def searchListView(request):
    """
    paginate_by = 10
    search_value = request.GET['q']
+
    if '@' in search_value:
        result_objects = User.objects.filter(email__icontains=search_value)
    else :
        result_objects = User.objects.filter(username__icontains=search_value)
+       print(result_objects[0].username)
 
-   result_profilepic = Userprofile.objects.filter(id=result_objects[0].id)
+   result_profilepic = Userprofile.objects.filter(userid=result_objects[0].id)
+
+   print(result_profilepic[0].id)
    context = {
       'result_objects': result_objects,
       'result_profilepic': result_profilepic
     }
-
-   return render(request,'social_app/post_list.html',context)
+   return render(request,'social_app/search_result.html',context)
 
 def signup_login(request):
     if request.user.is_authenticated:
@@ -168,3 +171,22 @@ def signup_login(request):
        user_img = UserProfileForm()
        return render(request,'registration/login.html',{'user_form':user_form,'registered':registered, 'user_img':user_img})
     return render(request,'registration/login.html',{'user_form':user_form, 'user_img':user_img})
+
+
+def post_reply(request,pk):
+    #post_id = get_object_or_404(Post,pk=pk)
+    if request.method == "POST":
+       text_form = ReplyForm(data=request.POST)
+       if text_form.is_valid():
+           reply_content = request.POST.get('reply')
+           text_form.save(commit=False)
+           text_form.instance.date = timezone.now()
+           text_form.instance.userid = AuthUser.objects.get(id=request.user.id)
+           text_form.instance.textid = Post.objects.get(id=pk)
+           print(text_form.instance.textid.id)
+           text_form.reply = reply_content
+           text_form.instance.likecount = 0
+           text_form.save()
+       return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    else:
+       return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
