@@ -6,13 +6,13 @@ from social_app.models import Userprofile, Post, Reply
 #from django.db import models
 
 
-
-
 class UserProfileForm(forms.ModelForm):
 
     class Meta():
         model = Userprofile
-        fields = ('profilepic','gender',)
+        fields = ('profilepic','gender','portfolio','bio')
+        widgets = {'portfolio': forms.HiddenInput(),
+                    'bio': forms.HiddenInput(),}
 
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)

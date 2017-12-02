@@ -9,6 +9,10 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.core.urlresolvers import reverse
+import datetime
+from datetime import datetime, timedelta
+from django.utils.timesince import timesince
+
 
 class Follower(models.Model):
     id = models.BigAutoField(primary_key=True)
@@ -38,7 +42,19 @@ class Reply(models.Model):
     userid = models.ForeignKey('AuthUser', models.DO_NOTHING, db_column='userid')
     date = models.DateTimeField()
     likecount = models.IntegerField(blank=True, null=True)
+    profileid = models.ForeignKey('Userprofile', models.DO_NOTHING, db_column='profileid')
 
+    def get_current_date(self):
+      now = datetime.now()
+      try:
+          difference = now - self.date
+      except:
+          return self.date
+
+      if difference <= timedelta(minutes=1):
+          return 'Just Now'
+      return '%(time)s' % {'time': timesince(self.date).split(', ')[0]}
+  
     class Meta:
         managed = False
         db_table = 'Reply'
@@ -67,7 +83,6 @@ class Texlike(models.Model):
 class Userprofile(models.Model):
     id = models.BigAutoField(primary_key=True)
     profilepic = models.ImageField(max_length=256, blank=True, null=True, upload_to='profile_pics')
-    portfolio_field = models.CharField(db_column='portfolio ', max_length=256, blank=True, null=True)  # Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
     bio = models.CharField(max_length=256, blank=True, null=True)
     userid = models.ForeignKey('AuthUser', models.DO_NOTHING, db_column='userid')
     postcount = models.IntegerField(blank=True, null=True)
@@ -75,6 +90,7 @@ class Userprofile(models.Model):
     followingcount = models.IntegerField(blank=True, null=True)
     gender = models.CharField(max_length=10)
     status = models.NullBooleanField()
+    portfolio = models.CharField(max_length=256, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -121,6 +137,9 @@ class AuthUser(models.Model):
     is_staff = models.BooleanField()
     is_active = models.BooleanField()
     date_joined = models.DateTimeField()
+
+    def get_absolute_url(self):
+        return reverse("user_update", kwargs={'pk':self.pk})
 
     class Meta:
         managed = False
@@ -205,6 +224,80 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse("home", kwargs={'pk':self.pk})
 
+    def get_current(self):
+       now = datetime.now()
+       try:
+           difference = now - self.date
+       except:
+           return self.date
+       if difference <= timedelta(minutes=1):
+           try:
+               return "justnow"
+           except:
+               return self.date
+       return '%(time)s ago' % {'time': timesince(self.date).split(', ')[0]}
+
     class Meta:
         managed = False
         db_table = 'post'
+
+
+class SocialAuthAssociation(models.Model):
+    server_url = models.CharField(max_length=255)
+    handle = models.CharField(max_length=255)
+    secret = models.CharField(max_length=255)
+    issued = models.IntegerField()
+    lifetime = models.IntegerField()
+    assoc_type = models.CharField(max_length=64)
+
+    class Meta:
+        managed = False
+        db_table = 'social_auth_association'
+        unique_together = (('server_url', 'handle'),)
+
+
+class SocialAuthCode(models.Model):
+    email = models.CharField(max_length=254)
+    code = models.CharField(max_length=32)
+    verified = models.BooleanField()
+    timestamp = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'social_auth_code'
+        unique_together = (('email', 'code'),)
+
+
+class SocialAuthNonce(models.Model):
+    server_url = models.CharField(max_length=255)
+    timestamp = models.IntegerField()
+    salt = models.CharField(max_length=65)
+
+    class Meta:
+        managed = False
+        db_table = 'social_auth_nonce'
+        unique_together = (('server_url', 'timestamp', 'salt'),)
+
+
+class SocialAuthPartial(models.Model):
+    token = models.CharField(max_length=32)
+    next_step = models.SmallIntegerField()
+    backend = models.CharField(max_length=32)
+    data = models.TextField()
+    timestamp = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'social_auth_partial'
+
+
+class SocialAuthUsersocialauth(models.Model):
+    provider = models.CharField(max_length=32)
+    uid = models.CharField(max_length=255)
+    extra_data = models.TextField()
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'social_auth_usersocialauth'
+        unique_together = (('provider', 'uid'),)

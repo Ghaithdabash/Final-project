@@ -7,8 +7,14 @@
           <div class="baseoverlay2 pl-3">
             <input type="text" name="p" placeholder="What's on your mind?" id="post-in-image" class="pt-4">
             <div class="fa-post">
-              <!--<input type="file" name="pic">-->
-              <input type="file" name="photo">
+              <div id="errorDiv">
+
+              </div>
+              <div class=" col-md-4  m-0 justify-content-start">
+                   <label for="image_upload2">
+                       <i class="fa fa-camera fa-md " aria-hidden="true">Add photo</i></label>
+                   <input type="file" name="photo" id="image_upload2" style="display: none">
+             </div>
             </div>
           </div>
 </form>
@@ -35,7 +41,12 @@
     <div class=" designrow-home mr-5 ">
       <ul class="list" id="ul-body">
         <div class="card-columns" id="cardcolumns">
-            {% for post in post_list %}
+          <div class="infinite-container">
+
+
+            {% for post in posts %}
+
+            <div class="infinite-item">
           <li>
           <div class="card mt-3">
             <div class="media p-3">
@@ -43,27 +54,29 @@
               <div class="media-body "style=" color:#50575D;">
                 <h6 class="mt-0">{{post.userid.username}}</h6>
                 {% if post.text %}
-                <h6>{{ post.text }}</h6>
+                <div style="width:30%;">
+                  <p style="font-size:12px;">{{ post.text }}</p>
+                  </div>
                 {% endif %}
               </div>
-              <i class="fa fa-reply" style="color:#DDE0E5;" aria-hidden="true" data-toggle="modal" data-target="#exampleModal"></i>
+              <i class="fa fa-reply" style="color:#DDE0E5;" aria-hidden="true" data-toggle="modal" data-target="#comment_post_all{{post.id}}"></i>
                 <!-- Modal -->
                 <form action="{% url 'post_reply' pk=post.pk %}" method="POST">
 
                     {% csrf_token %}
-                    <div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
+                    <div class="modal" id="comment_post_all{{post.id}}" tabindex="-1" role="dialog" aria-labelledby="replyModalLabel" aria-hidden="true"
                       style="padding-top:150px;">
                         <div class="modal-dialog" role="document">
                           <div class="modal-content">
                             <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel">Add Comment</h5>
+                              <h5 class="modal-title" id="replyModalLabel">Add Comment</h5>
                               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                   <span aria-hidden="true">&times;</span>
                               </button>
                             </div>
                             <div class="modal-body">
                               <div class="media p-3">
-                                <img class="d-flex mr-3" src="{{profile.profilepic.url}}" width="40px" alt="Generic placeholder image">
+                                <img class="d-flex mr-3" src="{{profile.profilepic.url}}" width="40px" height="40px" alt="">
                                 <div class="media-body "style=" color:#50575D;">
                                   <h6 class="mt-0">{{ user.username }}</h6>
                                   <input type="text" name="reply" value="" style="width:100%;border:none; border-bottom:solid #00CD97;">
@@ -77,38 +90,102 @@
                         </div>
                     </div>
               </form>
-              <i class="fa fa-heart-o pl-2" style="color:#DDE0E5;" aria-hidden="true"></i>
-              <p class="pl-2" style="color:#DDE0E5; font-size:12px;">{{ post.date }}</p>
+             <i id={{post.id}}  class="fa fa-heart-o pl-2 likepost" style="color:#DDE0E5;" >{% csrf_token %}</i>
+              <p class="pl-2" style="color:#DDE0E5; font-size:12px;">{{post.get_current}}</p>
           </div>
           {% if post.video %}
-            <iframe class="pt-3" width="100%" height="300px" src="https://www.youtube.com/embed/{{ post.video }}?rel=0" frameborder="0" allowfullscreen></iframe>
+            <iframe class="pt-3" width="100%" data-target="#popup_postlist{{post.id}}" data-toggle="modal" height="300px" src="https://www.youtube.com/embed/{{ post.video }}?rel=0" frameborder="0" allowfullscreen></iframe>
           {% endif %}
           {% if post.photo %}
-            <img src={{post.photo.url}} id="myImg" class="pt-3" width="100%" height="300px">
+            <img src={{post.photo.url}} id="myImg" data-target="#popup_postlist{{post.id}}" data-toggle="modal" class="pt-3" width="100%" height="300px">
           {% endif %}
-          <button class="pb-2" style="background-color:transparent; font-size:10px; color:#AFB4B8; border:none;" data-toggle="collapse" data-target= "#template{{forloop.counter}}" aria-expanded="false" aria-controls="collapseExample">
+                <!-- Modal  for image or videos popup -->
+                    <div class=" modal fade bd-example-modal-lg" id="popup_postlist{{post.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                             <button type="button" class="close float-right" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                             </button>
+                             <div class="modal-content">
+                                {% if post.photo %}
+                                <img src={{post.photo.url}}  class="" style=" width:100%; height:400px;">
+                                {% endif %}
+                                {% if post.video %}
+                                <iframe class="pt-3" width="100%" height="400px" src="https://www.youtube.com/embed/{{ post.video }}?rel=0" frameborder="0" allowfullscreen
+                                ></iframe>
+                                {% endif %}
+                                <div class="modal-footer" style="height:80px; display:inline; float:left;">
+                                    <div class="media">
+                                        <img class="d-flex mr-3" alt="image" style="width: 40px; height: 40px;"
+                                                   src={{post.profile_id.profilepic.url}} data-holder-rendered="true">
+                                        <div class="media-body">
+                                             <h5 class="mt-0">{{user.username}}</h5>
+                                             {% if post.text %}
+                                             {{post.text}}
+                                             {% endif %}
+                                        </div>
+                                        <div style="display:inline; float:right;">
+                                             <i class="fa fa-heart-o pl-2" style="color:#DDE0E5
+                                                        ; display:inline;" aria-hidden="true"></i>
+                                              <p class="pl-2" style="color:#DDE0E5
+                                                        ; font-size:12px; display:inline;">{{ post.get_current }}</p>
+                                          </div>
+                                       </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                  <!---modal ending--->
+          <button class="pb-2" style="background-color:transparent; font-size:10px; color:#AFB4B8; border:none;" data-toggle="collapse" data-target= "#reply_allpost{{post.id}}" aria-expanded="false" aria-controls="collapseExample">
               Expand
           </button>
+          <div class="collapse" id="reply_allpost{{post.id}}">
             {% for comment in post.comments.all %}
-          <div class="collapse" id="template{{forloop.counter}}">
-            <div class="media p-5">
-              <img class="d-flex mr-3" src="" width="40px" alt="">
-                <h6 class="mt-0">{{post.userid.username}}</h6>
+            <div class="media p-3 pt-3">
+              <img class="d-flex mr-3" src={{comment.profileid.profilepic.url}} width="40px" alt="">
+                <h6 class="mt-0">{{comment.userid.username}}</h6>
               <div class="media-body" style=" color:#50575D;">
                 <h6 class="mt-0"></h6>
                  {{comment.reply}}
               </div>
               <i class="fa fa-heart-o pl-2" aria-hidden="true" style="color:#DDE0E5;"></i>
-              <p class="pl-2" style="color:#DDE0E5; font-size:12px;">3M</p>
+              <p class="pl-2" style="color:#DDE0E5; font-size:12px;">{{comment.get_current_date}}</p>
             </div>
-          </div>
           {% endfor %}
+         </div>
+
       </div>
     </li>
+  </div>
+
       {% endfor %}
+        </div>
   </div>
 </ul>
 </div>
 </div>
 </div>
+
+{% if posts.has_next %}
+   <a class="infinite-more-link" href="?page={{ posts.next_page_number }}">More</a>
+ {% endif %}
+
+ <div class="loading" style="display: none;">
+   Loading...
+ </div>
+
+ <script src="{% static 'JS/jquery-3.2.1.js' %}"></script>
+ <script src="{% static 'JS/jquery.waypoints.min.js' %}"></script>
+ <script src="{% static 'JS/infinite.min.js' %}"></script>
+
+ <script>
+   var infinite = new Waypoint.Infinite({
+     element: $('.infinite-container')[0],
+     onBeforePageLoad: function () {
+       $('.loading').show();
+     },
+     onAfterPageLoad: function ($items) {
+       $('.loading').hide();
+     }
+   });
+ </script>
 {% endblock %}

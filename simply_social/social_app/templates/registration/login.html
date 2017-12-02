@@ -48,12 +48,12 @@
                     <label for="username">UserName:</label>
                   </td>
                   <td>
-                    <input type="text" name="username" placeholder="Enter UserName">
+                    <input type="text" name="username" placeholder="Enter UserName" required>
                   </td>
                 </tr>
                 <tr>
                   <td><label for="password">Password</label></td>
-                  <td><input type="password" name="password"placeholder="Enter Password"></td>
+                  <td><input type="password" name="password"placeholder="Enter Password" required></td>
                 </tr>
                 <tr>
                   <td></td>
@@ -68,25 +68,24 @@
           <div class="row">
             <div class="col-md-12">
               <form enctype="multipart/form-data" method="POST" action="{% url 'signup_login' %}" >
-        		      {% csrf_token %}
-         					<table>
-            			 {% for field in user_form %}
-              		 <tr>
-          				   <td>{{ field.label_tag }}</td>
-          		       <td>{{ field }}</td>
-                	 </tr>
-
-                    {% endfor %}
-                  <tr>
-                    <td>{{ user_img.gender.label_tag }}</td>
-                    {% if user_img.gender.errors %}
-                      <p style="color: red">{{ errors }}</p>
-                    {% endif %}
-
-              			<td><input type="radio" name="gender" value="F">Female
-                    <input type="radio" name="gender" value="M">Male</td>
-                  </tr>
-                </table>
+                {% csrf_token %}
+                    <table>
+                        {% for field in user_form %}
+                            <tr>
+                                <td>{{ field.label_tag }}</td>
+                                <td>{{ field }}</td>
+                                {% for error in field.errors %}
+                                    <p style="color: red">{{ error }}</p>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                            <tr>
+                                  <td>{{ user_img.gender.label_tag }}</td>
+                                    <p style="color: red">{{ errors }}</p>
+                            			<td><input type="radio" name="gender" value="F">Female
+                                  <input type="radio" name="gender" value="M" checked>Male</td>
+                            </tr>
+                    </table>
                 <table>
                  <tr>
 								   <td>{{ user_img.profilepic.label_tag }}</td>

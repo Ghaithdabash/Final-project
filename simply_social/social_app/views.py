@@ -5,7 +5,7 @@ from django.utils import timezone
 from django.urls import reverse_lazy
 from social_app.forms import UserForm, UserProfileForm, NewPostForm , ReplyForm
 from django.shortcuts import render
-from social_app.models import AuthUser, Post,Userprofile , Reply
+from social_app.models import AuthUser, Post,Userprofile , Reply,Texlike
 from django.contrib.auth.forms import UserCreationForm
 import re
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -14,14 +14,23 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import login, logout, authenticate
 from django.db.models import Q
+from django.contrib import messages
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Create your views here.
 
 
-class PostListView(ListView,LoginRequiredMixin):
-   model = Post
-   def get_queryset(self):
-       return Post.objects.filter(date__lte=timezone.now()).order_by('-date')
+def home(request):
+   post_list = Post.objects.filter(date__lte=timezone.now()).order_by('-date')
+   page = request.GET.get('page', 1)
+   paginator = Paginator(post_list,1)
+   try:
+       posts = paginator.page(page)
+   except PageNotAnInteger:
+       posts = paginator.page(1)
+   except EmptyPage:
+       posts = paginator.page(paginator.num_pages)
+   return render(request, 'social_app/post_list.html', {'posts': posts})
 
 def getimages(request):
     photos = Post.objects.exclude(photo='').order_by('-date')
@@ -97,26 +106,27 @@ def newpost(request):
 ########################################################################################################
 
 def searchListView(request):
-   """
-   Display a List page filtered by the search query.
-   """
-   paginate_by = 10
-   search_value = request.GET['q']
+  """
+  Display a List page filtered by the search query.
+  """
+  paginate_by = 10
+  search_value = request.GET['q']
 
-   if '@' in search_value:
-       result_objects = User.objects.filter(email__icontains=search_value)
-   else :
-       result_objects = User.objects.filter(username__icontains=search_value)
-       print(result_objects[0].username)
+  if '@' in search_value:
+      result_objects = User.objects.filter(email__icontains=search_value)
+  else:
+      result_objects = User.objects.filter(username__icontains=search_value)
 
-   result_profilepic = Userprofile.objects.filter(userid=result_objects[0].id)
-
-   print(result_profilepic[0].id)
-   context = {
-      'result_objects': result_objects,
-      'result_profilepic': result_profilepic
-    }
-   return render(request,'social_app/search_result.html',context)
+  if result_objects:
+       result_profilepic = Userprofile.objects.filter(userid=result_objects[0].id)
+       context = {
+           'result_objects': result_objects,
+           'result_profilepic': result_profilepic
+       }
+       return render(request,'social_app/search_result.html',context)
+  else:
+       messages.info(request, 'No results found, please try again')
+       return render(request,'social_app/search_result.html')
 
 def signup_login(request):
     if request.user.is_authenticated:
@@ -149,6 +159,8 @@ def signup_login(request):
            a = AuthUser.objects.get(id=user.id)
            profile = user_img.save(commit=False)
            profile.userid = a
+           profile.portfolio = ''
+           profile.bio = ''
            profile.status = False
            profile.postcount = 0
            profile.followercount = 0
@@ -182,6 +194,7 @@ def post_reply(request,pk):
            text_form.save(commit=False)
            text_form.instance.date = timezone.now()
            text_form.instance.userid = AuthUser.objects.get(id=request.user.id)
+           text_form.instance.profileid = Userprofile.objects.get(userid=request.user.id)
            text_form.instance.textid = Post.objects.get(id=pk)
            print(text_form.instance.textid.id)
            text_form.reply = reply_content
@@ -190,3 +203,67 @@ def post_reply(request,pk):
        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     else:
        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+######################################## UPDATING USER ################################################
+class UserUpdateView(LoginRequiredMixin,UpdateView):
+    login_url = '/login/'
+    redirect_field_name = 'auth/user_form.html'
+    form_class = UserForm
+    model = User
+
+
+def userupdate(request):
+     updated = False
+     user_profile = Userprofile.objects.get(userid=request.user.id)
+     if request.method == 'POST':
+         user_img = UserProfileForm(data=request.POST,instance=user_profile)
+         port_value = request.POST.get('portfolio')
+         bio_value = request.POST.get('bio')
+         if user_img.is_valid():
+             a = AuthUser.objects.get(id=request.user.id)
+             profile = user_img.save(commit=False)
+             profile.userid = a
+             profile.portfolio = port_value
+             profile.bio = bio_value
+             profile.status = False
+             profile.postcount = 0
+             profile.followercount = 0
+             profile.followingcount = 0
+
+             if 'profilepic' in request.FILES:
+                 profile.profilepic= request.FILES['profilepic']
+                 print(profile.profilepic)
+
+
+             profile.save()
+             updated = True
+
+         else:
+             print(user_img.errors)
+
+     else:
+        user_img = UserProfileForm()
+
+     return render(request,'auth/user_form.html',{'user_img':user_img})
+
+
+
+
+
+def likepost(request,pk):
+
+    if Texlike.objects.filter(userid=AuthUser.objects.get(id=request.user.id),textid=Post.objects.get(id=pk)).exists():
+        like = Texlike.objects.filter(userid=AuthUser.objects.get(id=request.user.id),textid=Post.objects.get(id=pk))
+
+        print(like)
+        like.delete()
+    else:
+        like = Texlike()
+        a = AuthUser.objects.get(id=request.user.id)
+        d = Post.objects.get(id=pk)
+        like.userid = a
+        like.textid = d
+        d.likecount+= 1
+        like.save()
+        d.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
