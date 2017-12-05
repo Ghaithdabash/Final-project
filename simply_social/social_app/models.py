@@ -54,7 +54,7 @@ class Reply(models.Model):
       if difference <= timedelta(minutes=1):
           return 'Just Now'
       return '%(time)s' % {'time': timesince(self.date).split(', ')[0]}
-  
+
     class Meta:
         managed = False
         db_table = 'Reply'

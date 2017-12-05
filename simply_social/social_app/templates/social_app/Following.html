@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content2 %}
+<div class="text-center designrow-home">
+  <img src="{{profile.profilepic.url}}" class="rounded" width="55px" height="55px" alt="">
+  <div class="text-center">
+    <h3 class="pt-1"style="color:#F7F8F8">{{ user.first_name }} {{ user.last_name }}</h3>
+    <h6 style="color:#DDE0E5;">xcxcvbxcvbcvbcvbcvb</h6>
+    <h6 style="color:#515456">asd</h6>
+  </div>
+</div>
+<div class="col-md-12 ">
+  <div class="row justify-content-center" style="padding-top:83px;">
+      <div class="col-md-6 section-allpost-photos-videeos">
+        <div class="row justify-content-center">
+          <div style="float: left; text-transform: uppercase;">
+            <a href="{% url 'profile' %}" style="color:white ;a:hover:white">{{ user.username }}'S FEED</a>
+          </div>
+          <div style="float: left;">
+            <a href="{% url 'follower' %}" style="color:white ;a:hover:white" class="a-fa-in-image padding-fa-in-image3">
+              <span >{{profile.followercount}} FOLLOWERS</span></a>
+          </div>
+          <div style="float: left;">
+            <a href="#" class="a-fa-in-image padding-fa-in-image3">
+              <span style="border-bottom:solid #00CD97;">{{profile.followingcount}} FOLLOWING</span></a>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+{% for foll in following_list %}
+<div class="row">
+  <div class="col-md-12 ">
+    <div class="row designrow-home justify-content-center ">
+      <div style="width:42%; ">
+          <div class="media pt-3" style="height:65%; ">
+            {% for key,item in profile_result.items %}
+             {% if foll.userid.id == item.userid.id %}
+            <img class="d-flex mr-3" src="{{item.profilepic.url}}" width="40px" height="40px" alt="Generic placeholder image">
+            <div class="media-body "style=" color:#50575D;">
+              {% for key,item in user_list.items %}
+               {% if foll.userid.id == item.id %}
+               <a class="mt-0" href="{% url 'get_user_profile' pk=item.pk %}" style="color:#50575D; a:hover:color:#50575D; text-decoration: none;; ">{{ item.username }}</a><br>
+              {% endif %}
+              {% endfor %}
+                <span class="followers-following-design">{{item.postcount}} posts</span>
+                <span class="followers-following-design">{{item.followercount}} followers</span>
+                <span class="followers-following-design">{{item.followingcount}} following</span>
+                <label class="checkbox-inline checkbox-padding">
+                  <input type="checkbox" value="">
+                </label>
+            </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+          <hr>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+{% endblock %}

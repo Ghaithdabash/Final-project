@@ -37,28 +37,25 @@
 
 {% block content %}
 <div class="row">
-  <div class="col-md-12 ">
-    <div class=" designrow-home mr-5 ">
-      <ul class="list" id="ul-body">
-        <div class="card-columns" id="cardcolumns">
-          <div class="infinite-container">
-
-
-            {% for post in posts %}
-
-            <div class="infinite-item">
-          <li>
-          <div class="card mt-3">
-            <div class="media p-3">
-              <img class="d-flex mr-3" src={{post.profileid.profilepic.url}} width="40px" alt="">
-              <div class="media-body "style=" color:#50575D;">
-                <h6 class="mt-0">{{post.userid.username}}</h6>
-                {% if post.text %}
-                <div style="width:30%;">
-                  <p style="font-size:12px;">{{ post.text }}</p>
-                  </div>
-                {% endif %}
-              </div>
+    <div class="col-md-12 ">
+        <div class=" designrow-home mr-5 ">
+            <ul class="list" id="ul-body">
+                <div class="card-columns" id="cardcolumns">
+                    <div class="infinite-container">
+                        {% for post in posts %}
+                        <div class="infinite-item">
+                        <li>
+                            <div class="card mt-3">
+                                <div class="media p-3">
+                                    <img class="d-flex mr-3" src={{post.profileid.profilepic.url}} width="40px" alt="">
+                                        <div class="media-body "style=" color:#50575D;">
+                                            <h6 class="mt-0">{{post.userid.username}}</h6>
+                                                {% if post.text %}
+                                                    <div style="width:30%;">
+                                                        <p style="font-size:12px;">{{ post.text }}</p>
+                                                    </div>
+                                                {% endif %}
+                                        </div>
               <i class="fa fa-reply" style="color:#DDE0E5;" aria-hidden="true" data-toggle="modal" data-target="#comment_post_all{{post.id}}"></i>
                 <!-- Modal -->
                 <form action="{% url 'post_reply' pk=post.pk %}" method="POST">
@@ -90,7 +87,17 @@
                         </div>
                     </div>
               </form>
-             <i id={{post.id}}  class="fa fa-heart-o pl-2 likepost" style="color:#DDE0E5;" >{% csrf_token %}</i>
+              {% for key,value in arr_of_like_objs.items %}
+              {% for liked in value %}
+              {% if liked.userid.id == user.pk %}
+              {% if liked.textid.id == post.id %}
+              <i class="fa fa-heart pl-2t"></i>
+              {% endif %}
+              {% endif %}
+              {% endfor %}
+              {% endfor %}
+              <i id={{post.id}} class="fa fa-heart-o pl-2 likepost">{% csrf_token %}</i>
+
               <p class="pl-2" style="color:#DDE0E5; font-size:12px;">{{post.get_current}}</p>
           </div>
           {% if post.video %}
@@ -116,7 +123,7 @@
                                 <div class="modal-footer" style="height:80px; display:inline; float:left;">
                                     <div class="media">
                                         <img class="d-flex mr-3" alt="image" style="width: 40px; height: 40px;"
-                                                   src={{post.profile_id.profilepic.url}} data-holder-rendered="true">
+                                                   src={{post.profileid.profilepic.url}} data-holder-rendered="true">
                                         <div class="media-body">
                                              <h5 class="mt-0">{{user.username}}</h5>
                                              {% if post.text %}
@@ -142,10 +149,11 @@
             {% for comment in post.comments.all %}
             <div class="media p-3 pt-3">
               <img class="d-flex mr-3" src={{comment.profileid.profilepic.url}} width="40px" alt="">
-                <h6 class="mt-0">{{comment.userid.username}}</h6>
+
               <div class="media-body" style=" color:#50575D;">
-                <h6 class="mt-0"></h6>
-                 {{comment.reply}}
+                <h6 class="mt-0">{{comment.userid.username}}</h6>
+                <h6 class="mt-0">{{comment.reply}}</h6>
+
               </div>
               <i class="fa fa-heart-o pl-2" aria-hidden="true" style="color:#DDE0E5;"></i>
               <p class="pl-2" style="color:#DDE0E5; font-size:12px;">{{comment.get_current_date}}</p>

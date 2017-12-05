@@ -14,6 +14,9 @@ font-family: 'Open Sans', sans-serif;
 .dropdown-nav{
   float: right;
 }
+.card-profile{
+  width: 40%;
+}
 
 .grid li {
   width: 100%;
@@ -226,13 +229,19 @@ height:950px;
 color:white;
 padding-top:225px;}
 .padding-fa-in-image{
-  padding-left:250px;
+  padding-left:245px;
 }
 .checkbox-padding{
   padding-left: 80px;
 }
 .followers-following-design{
   color:#DDE0E5;font-size:20px ;
+}
+.padding-section-allpost-photos-videeos{
+  padding-left: 110px;
+}
+.padding-fa-in-image3{
+  padding-left:290px;
 }
 }
 @media only screen and (min-device-width : 866px) and (max-device-width: 995px) {
@@ -268,6 +277,9 @@ height:1280px;
  .followers-following-design{
    color:#DDE0E5;font-size:11px ;
  }
+ .card-profile{
+   width: 60%;
+ }
 }
 
 
@@ -297,7 +309,7 @@ padding-top:350px;}
   display: none;
 }
 .padding-fa-in-image3{
-  padding-left:120px;
+  padding-left:98px;
 }
 .checkbox-padding{
   padding-left: 220px;
@@ -305,6 +317,10 @@ padding-top:350px;}
 .followers-following-design{
   color:#DDE0E5;font-size:15px ;
 }
+.card-profile{
+  width: 60%;
+}
+
 }
 
 
@@ -372,7 +388,7 @@ height:1000px;
       display: none;
     }
     .padding-fa-in-image3{
-      padding-left:70px;
+      padding-left:35px;
     }
     .card-size-in-samll-media{
       width: 80%;
@@ -384,6 +400,10 @@ height:1000px;
     }
     .followers-following-design{
       color:#DDE0E5;font-size:11px ;
+    }
+    .card-profile{
+      width: 100%;
+      padding-left: 20%;
     }
 }
 
@@ -422,7 +442,10 @@ height:1024px;
     padding-left: 260px;
   }
   .padding-fa-in-image3{
-    padding-left:110px;
+    padding-left:90px;
+  }
+  .card-profile{
+    width: 60%;
   }
 }
 
@@ -449,4 +472,273 @@ color:#007A60 ;}
  font-weight: bold;
  font-style: italic;
  color: red;
+}
+
+/********************************************************************** Search CSS ******************************************************************/
+
+.userupdate, td, tr {
+  font-weight: bold;
+  font-style: italic;
+}
+
+.file_button_container input {
+  cursor:pointer;
+
+  opacity: 0;
+}
+
+.file_button_container {
+background: url(https://logopond.com/logos/955d982c2063af2c839d36a348ec84bf.png);
+background-size: 100px 60px;
+background-repeat: no-repeat;
+
+}
+.file_button_container{
+  height: 100px;
+  width: 100px;
+}
+
+
+.cmn-toggle
+{
+  position: absolute;
+  margin-left: -9999px;
+  visibility: hidden;
+}
+
+.cmn-toggle + label
+{
+  display: block;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+input.cmn-toggle-round-flat + label
+{
+  padding: 2px;
+  width: 75px;
+  height: 30px;
+  background-color: #dddddd;
+  -webkit-border-radius: 60px;
+  -moz-border-radius: 60px;
+  -ms-border-radius: 60px;
+  -o-border-radius: 60px;
+  border-radius: 60px;
+  -webkit-transition: background 0.4s;
+  -moz-transition: background 0.4s;
+  -o-transition: background 0.4s;
+  transition: background 0.4s;
+}
+
+input.cmn-toggle-round-flat + label:before, input.cmn-toggle-round-flat + label:after
+{
+  display: block;
+  position: absolute;
+  content: "";
+  top: 2px;
+  left: 2px;
+  bottom: 2px;
+  right: 2px;
+  background-color: #FFF;
+  -webkit-border-radius: 60px;
+  -moz-border-radius: 60px;
+  -ms-border-radius: 60px;
+  -o-border-radius: 60px;
+  border-radius: 60px;
+  -webkit-transition: background 0.4s;
+  -moz-transition: background 0.4s;
+  -o-transition: background 0.4s;
+  transition: background 0.4s;
+}
+
+input.cmn-toggle-round-flat:checked + label:before
+{
+  background-color: #01B286;
+}
+
+input.cmn-toggle-round-flat + label:after
+{
+  top: 4px;
+  left: 4px;
+  bottom: 4px;
+  width: 22px;
+  background-color: #dddddd;
+  -webkit-border-radius: 52px;
+  -moz-border-radius: 52px;
+  -ms-border-radius: 52px;
+  -o-border-radius: 52px;
+  border-radius: 52px;
+  -webkit-transition: margin 0.4s, background 0.4s;
+  -moz-transition: margin 0.4s, background 0.4s;
+  -o-transition: margin 0.4s, background 0.4s;
+  transition: margin 0.4s, background 0.4s;
+}
+
+input.cmn-toggle-round-flat:checked + label
+{
+  background-color: #01B286;
+}
+
+input.cmn-toggle-round-flat:checked + label:after
+{
+  margin-left: 45px;
+  background-color: #FFF;
+}
+
+#settings{
+margin-top: 100px;
+margin-bottom: 30px;
+color: #343A40;
+}
+
+.account, .privacy{
+color: #717780;
+}
+
+
+
+
+
+
+
+
+
+
+.userupdate, td, tr {
+  font-weight: bold;
+  font-style: italic;
+}
+.liked {
+  color: red;
+}
+.unliked {
+  color: #DDE0E5;
+}
+
+.file_button_container input {
+  cursor:pointer;
+
+  opacity: 0;
+}
+
+.file_button_container {
+background: url(https://logopond.com/logos/955d982c2063af2c839d36a348ec84bf.png);
+background-size: 100px 60px;
+background-repeat: no-repeat;
+
+}
+.file_button_container{
+  height: 100px;
+  width: 100px;
+}
+
+
+.cmn-toggle
+{
+  position: absolute;
+  margin-left: -9999px;
+  visibility: hidden;
+}
+
+.cmn-toggle + label
+{
+  display: block;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+input.cmn-toggle-round-flat + label
+{
+  padding: 2px;
+  width: 75px;
+  height: 30px;
+  background-color: #dddddd;
+  -webkit-border-radius: 60px;
+  -moz-border-radius: 60px;
+  -ms-border-radius: 60px;
+  -o-border-radius: 60px;
+  border-radius: 60px;
+  -webkit-transition: background 0.4s;
+  -moz-transition: background 0.4s;
+  -o-transition: background 0.4s;
+  transition: background 0.4s;
+}
+
+input.cmn-toggle-round-flat + label:before, input.cmn-toggle-round-flat + label:after
+{
+  display: block;
+  position: absolute;
+  content: "";
+  top: 2px;
+  left: 2px;
+  bottom: 2px;
+  right: 2px;
+  background-color: #FFF;
+  -webkit-border-radius: 60px;
+  -moz-border-radius: 60px;
+  -ms-border-radius: 60px;
+  -o-border-radius: 60px;
+  border-radius: 60px;
+  -webkit-transition: background 0.4s;
+  -moz-transition: background 0.4s;
+  -o-transition: background 0.4s;
+  transition: background 0.4s;
+}
+
+input.cmn-toggle-round-flat:checked + label:before
+{
+  background-color: #01B286;
+}
+
+input.cmn-toggle-round-flat + label:after
+{
+  top: 4px;
+  left: 4px;
+  bottom: 4px;
+  width: 22px;
+  background-color: #dddddd;
+  -webkit-border-radius: 52px;
+  -moz-border-radius: 52px;
+  -ms-border-radius: 52px;
+  -o-border-radius: 52px;
+  border-radius: 52px;
+  -webkit-transition: margin 0.4s, background 0.4s;
+  -moz-transition: margin 0.4s, background 0.4s;
+  -o-transition: margin 0.4s, background 0.4s;
+  transition: margin 0.4s, background 0.4s;
+}
+
+input.cmn-toggle-round-flat:checked + label
+{
+  background-color: #01B286;
+}
+
+input.cmn-toggle-round-flat:checked + label:after
+{
+  margin-left: 45px;
+  background-color: #FFF;
+}
+
+#settings{
+margin-top: 100px;
+margin-bottom: 30px;
+color: #343A40;
+}
+
+.account, .privacy{
+color: #717780;
+}
+
+.editicon{
+  margin-left: 3px;
 }

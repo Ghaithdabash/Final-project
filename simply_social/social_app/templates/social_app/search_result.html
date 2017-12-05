@@ -14,27 +14,37 @@
 </div>
 </div>
 
-{% for value in result_objects %}
- {% for item in result_profilepic %}
 
 <div class="row search">
 <div class="col-md-12 ">
+  {% for value in result_objects %}
+  {% if value.pk != current_user.id %}
 <div class="row designrow-home justify-content-center ">
   <div class="card">
     <div class="size-of-card">
       <div class="media p-3">
-        <img class="d-flex mr-3" src={{item.profilepic.url}} width="40px" alt="">
+        {% for key,item in result_profilepic.items %}
+            {% for i in item %}
+                {% if value.pk == i.userid.id %}
+        <img class="d-flex mr-3" src={{i.profilepic.url}} width="40px" height="40px" alt="">
+                {% endif %}
+             {% endfor %}
+        {% endfor %}
+
         <div class="media-body "style=" color:#50575D;">
-          <h6 class="mt-0" id="followbtnfloat">{{ value.first_name }} {{ value.last_name }}</h6>
-          <button type="submit" class="btn btn-primary">Follow</button>
+          <h6 class="mt-0" id="followbtnfloat"><a href="{% url 'get_user_profile' pk=value.pk %}">{{ value.first_name }} {{ value.last_name }}</a></h6>
+          {% for key,item in result_follower.items %}
+              {% if item.userid.id == value.pk and item.connected == True %}
+          <a  href="{% url 'unfollow_request' pk=value.pk %}" type="button"  class="btn btn-outline-secondary" name="button">UnFollow</a>
+                   {% endif %}
+             {% endfor %}
         </div>
       </div>
      </div>
     </div>
   </div>
-</div>
-</div>
-<div style="height:97px"></div>
+   {% endif %}
  {% endfor %}
-{% endfor %}
+</div>
+</div>
 {% endblock %}

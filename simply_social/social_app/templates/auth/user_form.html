@@ -1,56 +1,290 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
 {% load staticfiles %}
-{% block content %}
+{% load static %}
+<html>
+ <head>
+    <meta charset="utf-8">
+    <title> index page </title>
+   <!---bootstarp --->
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+   <!---font awesome---->
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+   <!--- javascript for bbotstarp--->
+   <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+   <script src="{% static 'JS/jquery-3.2.1.js' %}"></script>
 
-<div class="jumbotron">
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+   <!---font--->
+   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+   <link  href="{% static 'CSS/social.css' %}" rel="stylesheet">
+   </head>
+<!---start BODY--->
+<body>
+  <div class="container-fluid">
+        <div class="modal fade" id="post_nav_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModal3Label" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content" id="dialog">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModal3Label">Create a post</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <form enctype="multipart/form-data" action="{% url 'new_post' %}" method="POST">
+                        {% csrf_token %}
+                          <div class=" pl-3">
+                            <div id="errorDiv_modal">
+                            </div>
+                            <input type="text" name="p" placeholder="What's on your mind?" id="txt_in_modal" class="pt-4 "
+                                style="height:100px;
+                                width:450px;
+                                word-break: break-word;
+                                border:none;">
+                            <div class="modal-footer row m-0  justify-content-start">
+                                <div class=" col-md-4  m-0 justify-content-start">
+                                  <label for="image_upload">
+                                    <i class="fa fa-camera fa-md " aria-hidden="true">Add photo</i></label>
+                                      <input type="file" name="photo" id="image_upload" style="display: none">
+                                </div>
+                                 <div class="col-md-4 m-0 ">
+                                    <button type="submit" id="postbtn_modal_id" class="save btn btn-success float-right" name="">Post</button>
+                                 </div>
+                              </div>
+                          </div>
+              </form>
+            </div>
+          </div>
+        </div>
+    <header class=" row bg-dark fixed-top" style=" height:60px;">
+      <!---navbar brand -->
+      <div class="col-md-3" id="brand-col">
+        <div class="navbar-brand mybrand">
+          <a href="{% url 'home' %}">
+            <i class="fa fa-comments m-2" id="fa3" aria-hidden="true"></i>
+              <span id="text1">simple</span><span id="text2">social<span>
+          </a>
+        </div>
+      </div>
+      <div class="col-md-8 col-12  pr-2">
+        <nav  class=" navbar navbar-expand-lg mynav col-12">
+          <div class="div-collapse-navbar text-center nav-padding-md">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <img src={{profile.profilepic.url}} class="rounded" width="30px" height="30px" alt="">
+            </button>
+            <div class="collapse navbar-collapse bg-dark" id="nav-collapse">
+                      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                        <li class="nav-item active">
+                          <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="">profile</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="dropdown-item" href="{% url 'user_update' pk=user.pk %}">setting</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="">followers</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link " href="">following</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+                        </li>
+                      <li class="nav-item">
+                      <div class="block pl-4">
+                      <!---search box--->
+                          <form id="searchform" action = "{% url 'search_list_view' %}" method="GET" accept-charset="utf-8" class="form-inline my-2 my-lg-0">
+                            <div id="input_container" >
+                              <input searchfield id="input" name="q" type="text" placeholder="Search">
+                                <span class="fa fa-search" id="input_img"></span>
+                            </div>
+                          </form>
+                    </div>
+                  </li>
+                  </ul>
+              </div>
 
-<form enctype="multipart/form-data" method="POST" action="" >
-    {% csrf_token %}
-    <table>
-     {% for field in form %}
-     <tr>
-       <td>{{ field.label_tag }}</td>
-       <td>{{ field }}</td>
-     </tr>
-      {% endfor %}
-      <td><button type="submit" value="signup" name="submit" class="btn btn-success" >Update</button></td>
-    </table>
-    </form>
+          </div>
+          <div class="dropdown-nav dropdown">
+            {% if user.is_authenticated %}
+            <ul class="navbar-nav mr-auto nav-tabs">
+              <li class="nav-item dropdown ">
+                <a class="nav-link" data-toggle="dropdown"
+                  href="#!" role="button" aria-haspopup="true" aria-expanded="false">
+                  <img src={{profile.profilepic.url}} class="rounded" width="30px" height="30px" alt="">
+                </a>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="">profile</a>
+                  <a class="dropdown-item" href="{% url 'user_update' pk=user.pk %}">settings</a>
+                  <a class="dropdown-item" href="">followers</a>
+                  <a class="dropdown-item" href="">following</a>
+                  <a class='nav-link bigbrand' href="{% url 'logout' %}">Log Out</a>
+                </div>
+              </li>
+            </ul>
+            {% endif %}
+          </div>
 
+          <div class="block float-right search-icon-display-small-size ">
+          <!---search box--->
+          <ul class="navbar-nav mr-auto mt-2 mt-md-0">
+            <li class="nav-item p-2 mb-2">
+              <form id="searchform" action = "{% url 'search_list_view' %}" method="GET" accept-charset="utf-8" class="form-inline my-2 my-lg-0">
+                <div id="input_container" >
+                  <input searchfield id="input" name="q" type="text" placeholder="Search">
+                    <span class="fa fa-search" id="input_img"></span>
+                </div>
+              </form>
+            </li>
+          </ul>
+        </div>
+        <div class="block float-right mt-2 search-icon-display-small-size ">
+          <ul class="navbar-nav mr-auto mt-2 mt-md-0">
+            <li class="nav-item mb-3">
+            <!-- chat icon trigger  modal -->
+            <i class="fa fa-comment-o fa-lg" aria-hidden="true" data-toggle="modal" data-target="#post_nav_modal" id="fachat"></i>
+            </li>
+           <li class="nav-item p-1 ">
+            <!-- Modal -->
+            </li>
+            </ul>
+        </div>
+      </nav>
+    </div>
+  </header>
 
-    <form enctype="multipart/form-data" method="POST" action="{% url 'user_update2' %}" >
+  <div class="row">
+   <div class="col-md-12 col-sm-12 col-12">
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-sm-8 col-12">
+        <p id="settings"><font size="6">Settings</font></p>
+      </div>
+    </div>
+
+      <div class="row justify-content-center">
+        <div class="col-md-8 col-sm-8 col-12">
+          <p class="account">ACCOUNT</p>
+        </div>
+      </div>
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-sm-8 col-12">
+        <div class="row">
+        <div class="col-md-4 col-sm-4 col-12 col-lg-4">
+          <div style="height:15px;"></div>
+          <form enctype="multipart/form-data" method="POST" action="{% url 'user_update2' %}" >
           {% csrf_token %}
-    <table>
-        <tr>
-          <td>
-            <label for="portfolio">Portfolio:</label>
-          </td>
-          <td>
-            <input type="text" name="portfolio" placeholder="Your Portfolio">
-          </td>
-          <td>
-            <label for="bio">Bio:</label>
-          </td>
-          <td>
-            <input type="text" name="bio" placeholder="Your Bio">
-          </td>
-      </table>
-      <table>
-      <td>Gender:</td>
-      <td><input type="radio" name="gender" value="F">Female
-      <input type="radio" name="gender" value="M">Male</td>
-    </tr>
-  </table>
-  <table>
-   <tr>
-     <td>Profile Pic:</td>
-     <td><input type="file" name="profilepic"></td>
-   </tr>
-   <tr>
-        <td><button type="submit" value="signup" name="submit" class="btn btn-success" >Update</button></td>
-   </tr>
- </table>
-</form>
+                  <img src={{profile.profilepic.url}} class="rounded" width="100px" height="100px" alt="" style="display:block;">
+                    <div class="file_button_container rounded">
+                      <input type="file" id="profilepic" name="profilepic"/>
+                    </div>
 
+                    <div>
+                      <table>
+                        <tr>
+                          <td>Gender:</td>
+                        </tr>
+                        <tr>
+                          <td><input type="radio" name="gender" value="F" class="mt-2"> Female
+                          <input type="radio" name="gender" value="M"> Male</td>
+                        </tr>
+                      </table>
+                   </div>
+
+                     <div class="mt-4">
+                       <label class="userupdate">Portfolio:
+                        <p> <input type="text" name="portfolio" placeholder="Your Portfolio" class="mt-2" style="width:100%;"></p>
+                       </label>
+                    </div>
+                    <div>
+                       <label class="userupdate">Bio:
+                       <p>
+                         <textarea type="text" rows="3" name="bio" placeholder="Write your Bio" class="rounded mt-2" style="border-style:solid;border-color:#B5B5B5;width:100%;"></textarea>
+                       </p>
+                       <label>
+                    </div>
+                    <button type="submit" name="submit" value="signup" class="rounded mt-3 mb-5" style="background-color:transparent; border-color:#01AC82; border-style:solid;">save</button>
+             </form>
+             </div>
+
+
+           <div class="col-md-4 col-sm-4 col-12 col-lg-4">
+             <form enctype="multipart/form-data" method="POST" action="" >
+             {% csrf_token %}
+
+
+             {% for field in form %}
+             <p class="userupdate">
+               {{ field.label_tag }} <br>
+               {{ field }}
+               {% for error in field.errors %}
+                 <p style="color: red">{{ error }}</p>
+               {% endfor %}
+             </p>
+             {% endfor %}
+            <button type="submit" value="signup" name="submit" class="rounded mb-5" style="background-color:transparent; border-color:#01AC82; border-style:solid;">save</button>
+           </form>
+          </div>
+       </div>
+     </div>
+   </div>
+
+
+
+     <div class="row justify-content-center">
+       <div class="col-md-8 col-sm-8 col-12">
+         <hr>
+         <form enctype="multipart/form-data" method="POST" action="{% url 'user_update2' %}" >
+         {% csrf_token %}
+           <p class="privacy mt-5">PRIVACY</p>
+           <div>
+             <div class="switch">
+               <input id="cmn-toggle-4" class="cmn-toggle cmn-toggle-round-flat" type="checkbox" name="status" >
+               <label for="cmn-toggle-4"></label>
+             </div>
+             <div style="display:inline-block;"><p>Allow anyone to see my posts</p>
+             </div>
+           </div>
+           <button type="submit" value="signup" name="submit" class="rounded mt-3 mb-5" style="background-color:transparent; border-color:#01AC82; border-style:solid;">save</button>
+         </form>
+
+         </div>
+       </div>
+     </div>
+   </div>
+
+  <footer>
+    <hr>
+    <div class="row">
+      <div class="col-md-12 col-sm-12 col-12">
+        <div class="row justify-content-center">
+          <div class="col-md-6 col-sm-6">
+            <div class="row justify-content-center">
+              <div class="col-md-2 col-sm-3 col-4 ">
+              <a class="a_in_footer-base" href="#">ABOUT US</a>
+              </div>
+              <div class="col-md-2 col-sm-3 col-4 ">
+              <a class="a_in_footer-base" href="#">SUPPORT</a>
+              </div>
+              <div class="col-md-2 col-sm-3 col-4 ">
+              <a class="a_in_footer-base" href="#">PRIVACY</a>
+              </div>
+              <div class="col-md-2 col-sm-3 col-4 ">
+              <a class="a_in_footer-base" href="#">TERMS</a>
+              </div>
+              <div class="col-md-2 col-sm-3 col-4 ">
+              <span class="a_in_footer-base">&copy;SIMPLYSOCIAL<span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
 </div>
-{% endblock %}
+<script src="{% static 'JS/social.js' %}"></script>
+
+</body>
+</html>

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load static %}
+{% block content2 %}
+<div class="text-center designrow-home">
+  <img src="{{profile_pic.profilepic.url}}" class="rounded" width="55px" height="55px" alt="">
+  <div class="text-center">
+    <h3 class="pt-1"style="color:#F7F8F8">{{ user.first_name }} {{ user.last_name }}</h3>
+    <h6 style="color:#DDE0E5;">xcxcvbxcvbcvbcvbcvb</h6>
+    <h6 style="color:#515456">asd</h6>
+      {% if user1.id == follower.followerid %}
+      <a  href="{% url 'unfollow_request' pk=user.pk %}" type="button"  class="btn btn-outline-secondary" name="button">UnFollow</a>
+      {% else %}
+      <a  href="{% url 'follow_request' pk=user.pk %}" type="button"  class="btn btn-outline-secondary" name="button">+ Follow</a>
+      {% endif %}
+  </div>
+</div>
+<div class="col-md-12 ">
+  <div class="row justify-content-center" style="padding-top:85px;">
+      <div class="col-md-6 section-allpost-photos-videeos">
+        <div class="row justify-content-center">
+          <div style="float: left; border-bottom:solid #00CD97; text-transform: uppercase;">
+            {{ user.username }}'S FEED
+          </div>
+          <div style="float: left;">
+            <a href="#" class="a-fa-in-image padding-fa-in-image3">{{profile_pic.followercount}} FOLLOWERS</a>
+          </div>
+          <div style="float: left;">
+            <a href="#" class="a-fa-in-image padding-fa-in-image3">{{profile_pic.followingcount}} FOLLOWING</a>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+{% endblock %}

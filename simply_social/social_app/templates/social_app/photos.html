@@ -25,7 +25,7 @@
 <!--     nav for allpost photo videos -->
 <div class="col-md-12 ">
     <div class="row designrow2 justify-content-center">
-        <div class="col-md-4 section-allpost-photos-videeos mr-5">
+        <div class="col-md-4 section-allpost-photos-videeos padding-section-allpost-photos-videeos mr-5">
             <div style="float: left;" class="pr-4">
                 <a href="{% url 'home' %}" class="a-fa-in-image">ALL POSTS</a>
             </div>
@@ -53,7 +53,7 @@
               <li  id="ul-body">
                   <div class="card mt-3">
                       <div class="media p-3">
-                          <img class="d-flex mr-3" src={{post.profile_id.profilepic.url}} width="40px" height="40px" alt="">
+                          <img class="d-flex mr-3" src={{post.profileid.profilepic.url}} width="40px" height="40px" alt="">
                               <div class="media-body "style=" color:#50575D;">
                                   <h6 class="mt-0">{{post.userid.username}}</h6>
                                       {% if post.text %}
@@ -93,7 +93,17 @@
                                               </div>
                                           </div>
                                     </form>
-                              <i id={{post.id}} class="fa fa-heart-o pl-2 likepost" style="color:#DDE0E5;" aria-hidden="true">{% csrf_token %}</i>
+                                    {% for key,value in arr_of_like_objs.items %}
+                                    {% for liked in value %}
+                                    {% if liked.userid.id == user.pk %}
+                                    {% if liked.textid.id == post.id %}
+                                    <i class="fa fa-heart pl-2t"></i>
+                                    {% endif %}
+                                    {% endif %}
+                                    {% endfor %}
+                                    {% endfor %}
+
+                              <i id={{post.id}}  class="fa fa-heart-o pl-2 likepost" style="color:#DDE0E5;">{% csrf_token %}</i>
                               <p class="pl-2" style="color:#DDE0E5; font-size:12px;">{{ post.get_current }}</p>
                       </div>
                       {% if post.photo %}
@@ -113,7 +123,7 @@
                                             <div class="modal-footer" style="height:80px; display:inline; float:left;">
                                                 <div class="media">
                                                     <img class="d-flex mr-3" alt="image" style="width: 40px; height: 40px;"
-                                                        src={{post.profile_id.profilepic.url}} data-holder-rendered="true">
+                                                        src={{post.profileid.profilepic.url}} data-holder-rendered="true">
                                                     <div class="media-body">
                                                         <h5 class="mt-0">{{userbame}}</h5>
                                                           {{post.text}}
@@ -154,4 +164,5 @@
         </div>
     </div>
 </div>
+ <script src="{% static 'JS/jquery-3.2.1.js' %}"></script>
 {% endblock %}

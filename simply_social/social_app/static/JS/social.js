@@ -28,10 +28,14 @@ $(document).ready(function() {
        type: "POST",
        context: this,
        success : function(result){
-         //$(this).addClass("liked");
-
-         $(this).css('color','red');
-
+         if ($(this).hasClass("fa-heart-o")){
+           $(this).addClass("fa-heart")
+           $(this).removeClass("fa-heart-o")
+       }
+       else {
+         $(this).addClass("fa-heart-o")
+         $(this).removeClass("fa-heart")
+       }
        }
      });
 
@@ -40,6 +44,7 @@ $(document).ready(function() {
 });
 
 
+//////////////////////////////////////////.........................
 
 $(document).ready(function() {
  $("#post-in-image").on('keypress',function(e)
@@ -96,4 +101,12 @@ $(document).ready(function() {
                       $('#errorDiv_modal').html("enter more than 1 characters ");}}
 
                    });
-  });
+});
+
+/*///////////////////////////////////////////////////////////
+function test(user_id) {
+  var userid = user_id;
+  console.log(userid);
+
+}
+//////////////////////////////////////////////////////////*/
