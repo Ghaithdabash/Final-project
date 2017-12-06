@@ -3,30 +3,11 @@
 {% load static %}
 {% block content2 %}
 <div class="text-center designrow-home">
-  <img src="{{profile_pic.profilepic.url}}" class="rounded" width="55px" height="55px" alt="">
+  <img src="{{profile.profilepic.url}}" class="rounded" width="55px" height="55px" alt="">
   <div class="text-center">
     <h3 class="pt-1"style="color:#F7F8F8">{{ user.first_name }} {{ user.last_name }}</h3>
-    {% if profile_pic.portfolio %}
-    <h6 style="color:#DDE0E5;">{{profile_pic.portfolio}}</h6>
-    {% else %}
-    <h6 style="color:#969D87;">My portfolio</h6>
-    {% endif %}
-
-    {% if profile_pic.bio %}
-    <h6 style="color:#515456">{{profile_pic.bio}}</h6>
-    {% else %}
-    <h6 style="color:#969D87;">My bio</h6>
-    {% endif %}
-
-      {% if user1.id == follower.followerid %}
-        {% if follower.connected == True %}
-          <a  href="{% url 'unfollow_request' pk=user.pk %}" type="button"  class="btn btn-outline-secondary" name="button">UnFollow</a>
-          {% else %}
-          <p class="btn btn-outline-secondary" >Request Sent</p>
-          {% endif %}
-      {% else %}
-      <a  href="{% url 'follow_request' pk=user.pk %}" type="button"  class="btn btn-outline-secondary" name="button">+ Follow</a>
-      {% endif %}
+    <h6 style="color:#DDE0E5;">xcxcvbxcvbcvbcvbcvb</h6>
+    <h6 style="color:#515456">asd</h6>
   </div>
 </div>
 <div class="col-md-12 ">
@@ -34,13 +15,13 @@
       <div class="col-md-6 section-allpost-photos-videeos">
         <div class="row justify-content-center">
           <div style="float: left; border-bottom:solid #00CD97; text-transform: uppercase;">
-            {{ user.username }}'S FEED
+            <a href="{% url 'profile' %}" style="color:white ;a:hover:white;text-decoration: none;">{{ user.username }}'S FEED</a>
           </div>
           <div style="float: left;">
-            <a href="#" class="a-fa-in-image padding-fa-in-image3">{{profile_pic.followercount}} FOLLOWERS</a>
+            <a href="{% url 'follower' %}" class="a-fa-in-image padding-fa-in-image3 ">{{profile.followercount}} FOLLOWERS</a>
           </div>
           <div style="float: left;">
-            <a href="#" class="a-fa-in-image padding-fa-in-image3">{{profile_pic.followingcount}} FOLLOWING</a>
+            <a href="{% url 'following' %}" class="a-fa-in-image padding-fa-in-image3">{{profile.followingcount}} FOLLOWING</a>
           </div>
         </div>
       </div>
@@ -49,9 +30,7 @@
 {% endblock %}
 
 {% block content %}
-{% for key,post in all_post.items %}
-{% if follower.connected == True %}
-{{profile_pic.status}}
+{% for key,post in all_posts.items reversed %}
 <div class="row">
 <div class="col-md-12 ">
   <div class="row designrow-home justify-content-center ">
@@ -62,7 +41,6 @@
           <div class="media-body "style=" color:#50575D;">
             <h6 class="mt-0">{{post.userid.username}}</h6>
           </div>
-          {% if user1.id == follower.followerid %}
           <i class="fa fa-reply" style="color:#DDE0E5;" aria-hidden="true" data-toggle="modal" data-target="#exampleModal"></i>
             <!-- Modal -->
             <div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
@@ -91,7 +69,6 @@
               </div>
             </div>
           <i class="fa fa-heart-o pl-2" style="color:#DDE0E5;" aria-hidden="true"></i>
-          {% endif %}
           <p class="pl-2" style="color:#DDE0E5; font-size:12px;">{{post.get_current}}</p>
         </div>
         {% if post.text %}
@@ -139,7 +116,6 @@
               </div>
           </div>
         <!---modal ending--->
-        {% if user1.id == follower.followerid %}
           <button class="pb-2" style="background-color:transparent; font-size:10px; color:#AFB4B8; border:none;" data-toggle="collapse" data-target="#reply_profile{{forloop.counter}}" aria-expanded="false" aria-controls="collapseExample">
               Expand
           </button>
@@ -155,14 +131,11 @@
               <p class="pl-2" style="color:#DDE0E5; font-size:12px;">{{comment.get_current_date}}</p>
             </div>
             {% endfor %}
-          {% endif %}
           </div>
     </div>
   </div>
   </div>
 </div>
 </div>
-{% endif %}
 {% endfor %}
-
 {% endblock %}

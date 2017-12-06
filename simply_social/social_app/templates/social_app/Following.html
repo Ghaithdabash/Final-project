@@ -5,28 +5,37 @@
   <img src="{{profile.profilepic.url}}" class="rounded" width="55px" height="55px" alt="">
   <div class="text-center">
     <h3 class="pt-1"style="color:#F7F8F8">{{ user.first_name }} {{ user.last_name }}</h3>
-    <h6 style="color:#DDE0E5;">xcxcvbxcvbcvbcvbcvb</h6>
-    <h6 style="color:#515456">asd</h6>
+    {% if profile.portfolio %}
+    <h6 style="color:#DDE0E5;">{{profile.portfolio}}</h6>
+    {% else %}
+    <h6 style="color:#969D87;">My portfolio</h6>
+    {% endif %}
+
+    {% if profile.bio %}
+    <h6 style="color:#515456">{{profile.bio}}</h6>
+    {% else %}
+    <h6 style="color:#969D87;">My bio</h6>
+    {% endif %}
   </div>
 </div>
 <div class="col-md-12 ">
-  <div class="row justify-content-center" style="padding-top:83px;">
-      <div class="col-md-6 section-allpost-photos-videeos">
-        <div class="row justify-content-center">
-          <div style="float: left; text-transform: uppercase;">
-            <a href="{% url 'profile' %}" style="color:white ;a:hover:white">{{ user.username }}'S FEED</a>
-          </div>
-          <div style="float: left;">
-            <a href="{% url 'follower' %}" style="color:white ;a:hover:white" class="a-fa-in-image padding-fa-in-image3">
-              <span >{{profile.followercount}} FOLLOWERS</span></a>
-          </div>
-          <div style="float: left;">
-            <a href="#" class="a-fa-in-image padding-fa-in-image3">
-              <span style="border-bottom:solid #00CD97;">{{profile.followingcount}} FOLLOWING</span></a>
-          </div>
-        </div>
-      </div>
-  </div>
+ <div class="row justify-content-center" style="padding-top:83px;">
+     <div class="col-md-6 section-allpost-photos-videeos">
+       <div class="row justify-content-center">
+         <div style="float: left; text-transform: uppercase;">
+           <a href="{% url 'profile' %}" style="color:white ;a:hover:white">{{ user.username }}'S FEED</a>
+         </div>
+         <div style="float: left;">
+           <a href="{% url 'follower' %}" style="color:white ;a:hover:white" class="a-fa-in-image padding-fa-in-image3">
+             <span >{{profile.followercount}} FOLLOWERS</span></a>
+         </div>
+         <div style="float: left;">
+           <a href="#" class="a-fa-in-image padding-fa-in-image3">
+             <span style="border-bottom:solid #00CD97;">{{profile.followingcount}} FOLLOWING</span></a>
+         </div>
+       </div>
+     </div>
+ </div>
 </div>
 {% endblock %}
 

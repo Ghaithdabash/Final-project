@@ -19,19 +19,19 @@
           </div>
 </form>
 <div class="col-md-12 ">
-  <div class="row designrow2 justify-content-center">
-    <div class="col-md-6 section-allpost-photos-videeos padding-fa-in-image">
-          <div style="float: left; border-bottom:solid #00CD97;">ALL POSTS</div>
-          <div style="float: left;"  class="pl-4">
-            <a href="{% url 'photos' %}" class="a-fa-in-image">PHOTOS</a>
-          </div>
-          <div style="float: left;" class="pl-4">
-            <a href="{% url 'videos' %}" class="a-fa-in-image">VIDEOS</a>
-          </div>
-          <a href="#" class="list" style="color:white ;a:hover:white"><i class="fa fa-list-ul padding-fa-in-image2" aria-hidden="true"></i></a>
-          <a href="#" class="grid" style="color:white ;a:hover:white"><i class="fa fa-th" aria-hidden="true"></i></a>
-    </div>
-  </div>
+   <div class="row designrow2 justify-content-center">
+       <div class="col-lg-6 col-md-12 section-allpost-photos-videeos padding-fa-in-image">
+           <div style="float: left; border-bottom:solid #00CD97;">ALL POSTS</div>
+               <div style="float: left;"  class="pl-4">
+                   <a href="{% url 'photos' %}" class="a-fa-in-image">PHOTOS</a>
+               </div>
+               <div style="float: left;" class="pl-4">
+                   <a href="{% url 'videos' %}" class="a-fa-in-image">VIDEOS</a>
+               </div>
+                   <a href="#" class="list" style="color:white ;a:hover:white"><i class="fa fa-list-ul padding-fa-in-image2 display-icon-image" aria-hidden="true"></i></a>
+                   <a href="#" class="grid" style="color:white ;a:hover:white"><i class="fa fa-th display-icon-image" aria-hidden="true"></i></a>
+       </div>
+   </div>
 </div>
 {% endblock %}
 
@@ -47,14 +47,10 @@
                         <li>
                             <div class="card mt-3">
                                 <div class="media p-3">
-                                    <img class="d-flex mr-3" src={{post.profileid.profilepic.url}} width="40px" alt="">
+                                    <img class="d-flex mr-3" src={{post.profileid.profilepic.url}} width="40px" height="40px" alt="">
                                         <div class="media-body "style=" color:#50575D;">
                                             <h6 class="mt-0">{{post.userid.username}}</h6>
-                                                {% if post.text %}
-                                                    <div style="width:30%;">
-                                                        <p style="font-size:12px;">{{ post.text }}</p>
-                                                    </div>
-                                                {% endif %}
+
                                         </div>
               <i class="fa fa-reply" style="color:#DDE0E5;" aria-hidden="true" data-toggle="modal" data-target="#comment_post_all{{post.id}}"></i>
                 <!-- Modal -->
@@ -100,6 +96,11 @@
 
               <p class="pl-2" style="color:#DDE0E5; font-size:12px;">{{post.get_current}}</p>
           </div>
+          {% if post.text %}
+             <div  style="width:50%;" class="pb-0 pl-3">
+                 <p style="font-size:12px;">{{ post.text }}</p>
+             </div>
+         {% endif %}
           {% if post.video %}
             <iframe class="pt-3" width="100%" data-target="#popup_postlist{{post.id}}" data-toggle="modal" height="300px" src="https://www.youtube.com/embed/{{ post.video }}?rel=0" frameborder="0" allowfullscreen></iframe>
           {% endif %}
@@ -148,14 +149,14 @@
           <div class="collapse" id="reply_allpost{{post.id}}">
             {% for comment in post.comments.all %}
             <div class="media p-3 pt-3">
-              <img class="d-flex mr-3" src={{comment.profileid.profilepic.url}} width="40px" alt="">
+              <img class="d-flex mr-3" src={{comment.profileid.profilepic.url}} width="40px" height="40px" alt="">
 
               <div class="media-body" style=" color:#50575D;">
                 <h6 class="mt-0">{{comment.userid.username}}</h6>
                 <h6 class="mt-0">{{comment.reply}}</h6>
 
               </div>
-              <i class="fa fa-heart-o pl-2" aria-hidden="true" style="color:#DDE0E5;"></i>
+              <i id={{comment.id}} class="fa fa-heart-o pl-2 commentlike" aria-hidden="true" style="color:#DDE0E5;"></i>
               <p class="pl-2" style="color:#DDE0E5; font-size:12px;">{{comment.get_current_date}}</p>
             </div>
           {% endfor %}

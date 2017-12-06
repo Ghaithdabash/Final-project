@@ -5,7 +5,7 @@ from django.utils import timezone
 from django.urls import reverse_lazy
 from social_app.forms import UserForm, UserProfileForm, NewPostForm , ReplyForm
 from django.shortcuts import render
-from social_app.models import AuthUser, Post, Userprofile , Reply, Texlike, Follower, Following
+from social_app.models import AuthUser, Post, Userprofile , Reply, Texlike, Follower, Following, Replylike
 from django.contrib.auth.forms import UserCreationForm
 import re
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -16,6 +16,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.db.models import Q
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+import collections
 
 # Create your views here.
 
@@ -115,6 +116,8 @@ def newpost(request):
              print(text.photo)
 
          text.save()
+         b.postcount += 1
+         b.save()
 
          return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
@@ -158,17 +161,23 @@ def searchListView(request):
       return render(request,'social_app/search_result.html')
 
 def get_user_profile(request,pk):
-   var = pk
-   user1 = AuthUser.objects.get(id=request.user.id)
-   profile_info = AuthUser.objects.get(id=var)
-   follower = Follower.objects.filter(followerid=user1.id,userid=var)
-   for followers in follower:
-       if followers.followerid == user1.id:
-           follower = followers
-       print(follower.followerid)
-   profile_pic = Userprofile.objects.get(userid=var)
-   return render(request, 'social_app/profile_search.html', {'user': profile_info ,'profile_pic': profile_pic,
-                                               'follower':follower,'user1':user1})
+  var = pk
+  user1 = AuthUser.objects.get(id=request.user.id)
+  profile_info = AuthUser.objects.get(id=var)
+
+  my_post = Post.objects.filter(userid=var)
+  all_post={}
+
+  for post in my_post:
+        all_post[post.id]= post
+
+  follower = Follower.objects.filter(followerid=user1.id,userid=var)
+  for followers in follower:
+      if followers.followerid == user1.id:
+          follower = followers
+  profile_pic = Userprofile.objects.get(userid=var)
+  return render(request, 'social_app/profile_search.html', {'user': profile_info ,'profile_pic': profile_pic,
+                                              'follower':follower,'user1':user1,'all_post':all_post})
 
 def signup_login(request):
     if request.user.is_authenticated:
@@ -289,6 +298,17 @@ def userupdate(request):
 
      return render(request,'auth/user_form.html',{'user_img':user_img})
 
+def update_status(request):
+   c_user = AuthUser.objects.get(id=request.user.id)
+   c_userprofile = Userprofile.objects.get(userid=c_user.id)
+   print(request.POST.get('status'))
+   if request.method == 'POST' and request.POST.get('status'):
+       print(request.POST.get('status'))
+       c_userprofile.status = 'f'
+   else:
+       c_userprofile.status = 't'
+   c_userprofile.save()
+   return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def follow_request(request,pk):
     user1 = AuthUser.objects.get(id=request.user.id)
@@ -315,9 +335,63 @@ def follow_request(request,pk):
         follower.save()
         user2.followercount +=1
         user2.save()
+
+    else:
+        follower.followerid = user1.id
+        follower.userid = AuthUser(user2.userid.id)
+        follower.connected = False
+        follower.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+def approve_request(request,pk):
+    user1 = AuthUser.objects.get(id=request.user.id)
+    user = Userprofile.objects.get(userid=user1)
+
+    user2 = Userprofile.objects.get(userid=pk)
+    follower = Follower.objects.get(userid=user1,followerid=user2.userid.id)
+
+
+    follower.connected = 't'
+    follower.save()
+    user.followercount += 1
+    user2.followingcount +=1
+    user.save()
+    user2.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+def current_requests(request):
+    current_user = AuthUser.objects.get(id=request.user.id)
+    f_req = Follower.objects.filter(connected='f',userid=current_user)
+
+    all_req={}
+    follower_p = {}
+    follower_profile = {}
+    for req in f_req:
+       all_req[req.id]= req
+       follower_p[req.id] = Userprofile.objects.filter(userid=req.followerid)
+       print(follower_p)
+       for key,follower in follower_p.items():
+         print(follower)
+         for value in follower:
+             if value.userid.id == req.followerid:
+                 follower_profile[value.id] = value
+
+    print(follower_profile)
+    return render(request,'social_app/following_requests.html',{'all_req':all_req,'follower_profile':follower_profile})
+
+def deny_request(request,pk):
+
+    user1 = AuthUser.objects.get(id=request.user.id)
+    follower = Follower()
+    ########################
+    follower = Follower.objects.filter(followerid=pk,userid=user1.id)
+    follower.delete()
+
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def Unfollow_request(request,pk):
+
     user1 = AuthUser.objects.get(id=request.user.id)
     user = Userprofile.objects.get(userid=user1.id)
     user2 = Userprofile.objects.get(userid=pk)
@@ -325,13 +399,13 @@ def Unfollow_request(request,pk):
     following = Following()
 
     following = Following.objects.filter(followingid=user2.id,userid=user1)
-    print(following)
+
     following.delete()
     user.followingcount -= 1
     user.save()
     ########################
     follower = Follower.objects.filter(followerid=user1.id,userid=AuthUser(user2.userid.id))
-    print(follower)
+
     follower.delete()
     user2.followercount -=1
     user2.save()
@@ -350,11 +424,11 @@ def follower_list(request):
        user_following = AuthUser.objects.filter(id=following.followerid)
 
        for profile in profile_following:
-           profile_result[following.userid.id] = profile
+           profile_result[following] = profile
            print(profile.id)
 
        for user in user_following:
-           user_list[following.userid.id] = user
+           user_list[following] = user
            print(user.username)
 
    return render(request,'social_app/Followers.html',{'following_list':following_list,'profile_result':profile_result,
@@ -398,8 +472,102 @@ def likepost(request,pk):
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
-def profile_post(request):
-   current_user = AuthUser.objects.get(id=request.user.id)
-   my_post = Post.objects.filter(userid=current_user.id)
+def likecomment(request,pk):
+    a = AuthUser.objects.get(id=request.user.id)
+    d = Reply.objects.get(id=pk)
+    if Replylike.objects.filter(userid=a,replyid=d).exists():
+        like = Replylike.objects.filter(userid=AuthUser.objects.get(id=request.user.id),replyid=Post.objects.get(id=pk))
+        d.likecount-= 1
+        d.save()
+        like.delete()
+    else:
+        like = Replylike()
+        like.userid = a
+        like.replyid = d
+        d.likecount+= 1
+        like.save()
+        d.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-   return render(request,'social_app/profile.html',{'my_post':my_post})
+
+def profile_post(request):
+    current_user = AuthUser.objects.get(id=request.user.id)
+    my_post = Post.objects.filter(userid=current_user.id)
+    all_post={}
+
+    for post in my_post:
+       all_post[post.id]= post
+
+
+    my_likes = Texlike.objects.filter(userid=current_user)
+    my_liked_post={}
+    total_liked_post={}
+    row=0
+    for postlike in my_likes:
+     my_liked_post[postlike.textid.id]= Post.objects.filter(id=postlike.textid.id)
+     total_liked_post[postlike.textid.id]=my_liked_post[postlike.textid.id][row]
+
+    my_reply = Reply.objects.filter(userid=current_user)
+    print(my_reply)
+    my_reply_post={}
+    total_reply_post={}
+    row=0
+    for reply in my_reply:
+     print(reply.textid.id)
+     my_reply_post[reply.textid.id]= Post.objects.filter(id=reply.textid.id)
+     total_reply_post[reply.textid.id]=my_reply_post[reply.textid.id][row]
+     print(total_reply_post[reply.textid.id].id)
+
+    all_post.update(total_liked_post)
+    all_post.update(total_reply_post)
+
+    all_posts = collections.OrderedDict(sorted(all_post.items()),)
+
+    return render(request,'social_app/profile.html',{'all_posts':all_posts})
+
+def my_likes(request):
+ current_user = AuthUser.objects.get(id=request.user.id)
+ all_post={}
+
+
+ my_likes = Texlike.objects.filter(userid=current_user)
+ my_liked_post={}
+ total_liked_post={}
+ row=0
+ for postlike in my_likes:
+     my_liked_post[postlike.textid.id]= Post.objects.filter(id=postlike.textid.id)
+     total_liked_post[postlike.textid.id]=my_liked_post[postlike.textid.id][row]
+
+
+ all_post.update(total_liked_post)
+ all_posts = collections.OrderedDict(sorted(all_post.items()),)
+
+ #for i ,post in enumerate(my_liked_post):
+  #       print (i,post,my_liked_post[post][i])
+ return render(request,'social_app/my_likes.html',{'all_posts':all_posts})
+
+
+
+
+def my_reply(request):
+ current_user = AuthUser.objects.get(id=request.user.id)
+ all_post={}
+
+ my_reply = Reply.objects.filter(userid=current_user)
+ print(my_reply)
+ my_reply_post={}
+ total_reply_post={}
+ row=0
+ for reply in my_reply:
+     print(reply.textid.id)
+     my_reply_post[reply.textid.id]= Post.objects.filter(id=reply.textid.id)
+     total_reply_post[reply.textid.id]=my_reply_post[reply.textid.id][row]
+     print(total_reply_post[reply.textid.id].id)
+
+
+ all_post.update(total_reply_post)
+ all_posts = collections.OrderedDict(sorted(all_post.items()),)
+
+ #for i ,post in enumerate(my_liked_post):
+  #       print (i,post,my_liked_post[post][i])
+ return render(request,'social_app/my_reply.html',{'all_posts':all_posts})

@@ -41,6 +41,35 @@ $(document).ready(function() {
 
   });
 
+
+    $(".commentlike").click(function(){
+
+      var commentid = $(this).attr("id");
+      var csrftoken = $('input[name=csrfmiddlewaretoken]').val();
+      console.log("fucking all day long");
+      console.log(csrftoken);
+       $.ajax({
+         url:"/comment/" + commentid + "/like/",
+         data: {"csrfmiddlewaretoken": csrftoken },
+         type: "POST",
+         context: this,
+         success : function(result){
+           if ($(this).hasClass("fa-heart-o")){
+             $(this).addClass("fa-heart")
+             $(this).removeClass("fa-heart-o")
+         }
+         else {
+           $(this).addClass("fa-heart-o")
+           $(this).removeClass("fa-heart")
+         }
+         }
+       });
+
+    });
+
+
+
+
 });
 
 

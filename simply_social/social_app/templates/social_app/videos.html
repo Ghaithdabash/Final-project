@@ -58,11 +58,6 @@
                         <img class="d-flex mr-3" src={{post.profileid.profilepic.url}} width="40px" height="40px" alt="">
                         <div class="media-body "style=" color:#50575D;">
                             <h6 class="mt-0">{{post.userid.username}}</h6>
-                              {% if post.text %}
-                            <div style="width:30%;">
-                                <p  style="font-size:12px;">{{ post.text }}</p>
-                            </div>
-                              {% endif %}
                         </div>
                         <i class="fa fa-reply" style="color:#DDE0E5;" aria-hidden="true" data-toggle="modal" data-target="#comment_for_videos{{forloop.counter}}"></i>
                         <!-- Modal for reply -->
@@ -108,6 +103,11 @@
                         <i id={{post.id}}  class="fa fa-heart-o pl-2 likepost" style="color:#DDE0E5;" >{% csrf_token %}</i>
                         <p class="pl-2" style="color:#DDE0E5; font-size:12px;">{{ post.get_current }}</p>
                     </div>
+                    {% if post.text %}
+                    <div  style="width:50%;" class="pb-0 pl-3">
+                      <p style="font-size:12px;">{{ post.text }}</p>
+                    </div>
+                    {% endif %}
                     {% if post.video %}
                       <iframe class="pt-3" width="100%" height="300px" src="https://www.youtube.com/embed/{{ post.video }}?rel=0" frameborder="0" allowfullscreen
                       data-toggle="modal" data-target="#popup_videos{{forloop.counter}}"></iframe>
@@ -155,7 +155,7 @@
                                           <h6 class="mt-0">{{comment.reply}}</h6>
 
                                         </div>
-                                        <i class="fa fa-heart-o pl-2" aria-hidden="true" style="color:#DDE0E5;"></i>
+                                          <i id={{comment.id}} class="fa fa-heart-o pl-2 commentlike" aria-hidden="true" style="color:#DDE0E5;"></i>
                                         <p class="pl-2" style="color:#DDE0E5; font-size:12px;">{{comment.get_current_date}}</p>
                                       </div>
                                     </div>

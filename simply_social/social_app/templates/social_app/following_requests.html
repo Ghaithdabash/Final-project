@@ -40,37 +40,37 @@
 {% endblock %}
 
 {% block content %}
-{% for foll in following_list %}
-{% if foll.connected == true %}
+
+
+{% for key,prof in follower_profile.items %}
 <div class="row">
   <div class="col-md-12 ">
     <div class="row designrow-home justify-content-center ">
       <div style="width:42%; ">
           <div class="media pt-3" style="height:65%; ">
-            {% for key,item in profile_result.items %}
-             {% if foll.followerid == item.userid.id %}
-            <img class="d-flex mr-3" src="{{item.profilepic.url}}" width="40px" height="40px" alt="Generic placeholder image">
+
+            <img class="d-flex mr-3" src="{{prof.profilepic.url}}" width="40px" height="40px" alt="Generic placeholder image">
             <div class="media-body "style=" color:#50575D;">
-              {% for key,item in user_list.items %}
-               {% if foll.followerid == item.id %}
-               <a class="mt-0" href="{% url 'get_user_profile' pk=item.pk %}" style="color:#50575D; a:hover:color:#50575D; text-decoration: none;; ">{{ item.username }}</a><br>
-              {% endif %}
-              {% endfor %}
-              <span class="followers-following-design">{{item.postcount}} posts</span>
-              <span class="followers-following-design">{{item.followercount}} followers</span>
-              <span class="followers-following-design">{{item.followingcount}} following</span>
+
+               <a class="mt-0" href="{% url 'get_user_profile' pk=prof.userid.pk %}" style="color:#50575D; a:hover:color:#50575D; text-decoration: none;; ">{{ prof.userid.username }}</a><br>
+
+              <span class="followers-following-design">{{prof.postcount}} posts</span>
+              <span class="followers-following-design">{{prof.followercount}} followers</span>
+              <span class="followers-following-design">{{prof.followingcount}} following</span>
               <label class="checkbox-inline checkbox-padding">
-                <input type="checkbox" value="">
+                <a  href="{% url 'approve' pk=prof.userid.pk %}" type="button"  class="btn btn-secondary" name="button">Approve</a>
+                <a  href="{% url 'deny' pk=prof.userid.pk %}" type="button"  class="btn btn-secondary" name="button">Deny</a>
               </label>
             </div>
-            {% endif %}
-          {% endfor %}
+
           </div>
           <hr>
       </div>
     </div>
   </div>
 </div>
-{% endif %}
+
+
 {% endfor %}
+
 {% endblock %}

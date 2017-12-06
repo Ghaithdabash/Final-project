@@ -236,18 +236,18 @@
      <div class="row justify-content-center">
        <div class="col-md-8 col-sm-8 col-12">
          <hr>
-         <form enctype="multipart/form-data" method="POST" action="{% url 'user_update2' %}" >
+         <form enctype="multipart/form-data" method="POST" action="{% url 'update_status' %}" >
          {% csrf_token %}
            <p class="privacy mt-5">PRIVACY</p>
            <div>
              <div class="switch">
-               <input id="cmn-toggle-4" class="cmn-toggle cmn-toggle-round-flat" type="checkbox" name="status" >
+               <input id="cmn-toggle-4" class="cmn-toggle cmn-toggle-round-flat" type="checkbox" checked name="status" >
                <label for="cmn-toggle-4"></label>
              </div>
              <div style="display:inline-block;"><p>Allow anyone to see my posts</p>
              </div>
            </div>
-           <button type="submit" value="signup" name="submit" class="rounded mt-3 mb-5" style="background-color:transparent; border-color:#01AC82; border-style:solid;">save</button>
+           <button type="submit" value="status" name="submit" class="rounded mt-3 mb-5" style="background-color:transparent; border-color:#01AC82; border-style:solid;">save</button>
          </form>
 
          </div>
