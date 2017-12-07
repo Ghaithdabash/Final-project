@@ -31,6 +31,6 @@ urlpatterns = [
         url(r'^status/$',views.update_status,name='update_status'),
         url(r'^my_likes/$',views.my_likes,name='my_likes'),
         url(r'^my_reply/$',views.my_reply,name='my_reply'),
-        url(r'^/follow/requests/$',views.current_requests,name='my_requests'),
+        url(r'^follow/requests/$',views.current_requests,name='my_requests'),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

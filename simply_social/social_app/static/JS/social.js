@@ -78,7 +78,7 @@ $(document).ready(function() {
 $(document).ready(function() {
  $("#post-in-image").on('keypress',function(e)
                  {  //var code = e.keyCode
-                   if($(this).val().length > 255 )
+                   if($(this).val().length > 100 )
                    {
                          if (e.keyCode == 13)
                          {+
@@ -106,7 +106,7 @@ $(document).ready(function() {
   $("#txt_in_modal").on('keypress',function(e)
                    {  //var code = e.keyCode
                      var btnpost= document.getElementById("postbtn_modal_id")
-                     if($(this).val().length > 255)
+                     if($(this).val().length > 100)
                      {
                         btnpost.disabled = true;
                          $('#errorDiv_modal').html("your text is too long ");
@@ -139,3 +139,19 @@ function test(user_id) {
 
 }
 //////////////////////////////////////////////////////////*/
+
+$(document).ready(function() {
+ var file = document.getElementById("image_upload");
+
+ file.addEventListener("change", function(){
+  $('#url_upload').html(this.value);
+  });
+});
+
+$(document).ready(function() {
+ var file = document.getElementById("image_upload2");
+
+ file.addEventListener("change", function(){
+  $('#url_upload2').html(this.value);
+  });
+});

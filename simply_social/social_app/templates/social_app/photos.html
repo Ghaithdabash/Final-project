@@ -4,20 +4,22 @@
 {% block content2 %}
 <!--     form for post -->
 <form enctype="multipart/form-data" action="{% url 'new_post' %}" method="POST">
-    {% csrf_token %}
-        <div class="baseoverlay2 pl-3">
-            <input type="text" name="p" placeholder="What's on your mind?" id="post-in-image" class="pt-4">
-                <div class="fa-post">
-                  <div id="errorDiv">
-
-                  </div>
-                    <div class=" col-md-4  m-0 justify-content-start">
-                        <label for="image_upload4">
-                            <i class="fa fa-camera fa-md " aria-hidden="true">Add photo</i></label>
-                        <input type="file" name="photo" id="image_upload4" style="display: none">
-                    </div>
-                </div>
-        </div>
+         {% csrf_token %}
+         <div class="baseoverlay2 pl-3">
+           <input type="text" name="p"  maxlength="100" placeholder="What's on your mind?" id="post-in-image" class="pt-4">
+           <div class="fa-post">
+             <div id="errorDiv">
+             </div>
+             <div class=" col-md-8  m-0 justify-content-start">
+                  <label for="image_upload2" style="cursor:pointer">
+                      <i class="fa fa-camera fa-md " aria-hidden="true">Add photo</i></label>
+                  <input type="file" name="photo" id="image_upload2" style="display: none">
+            </div>
+           </div>
+           <div class="row  pl-4 ">
+               <p id="url_upload2"></p>
+           </div>
+         </div>
 </form>
 <!--     form for post -->
 
@@ -102,7 +104,7 @@
                               <p class="pl-2" style="color:#DDE0E5; font-size:12px;">{{ post.get_current }}</p>
                       </div>
                       {% if post.text %}
-                      <div  style="width:50%;" class="pb-0 pl-3">
+                      <div  style="width:90%;" class="pb-0 pl-3">
                         <p style="font-size:12px;">{{ post.text }}</p>
                       </div>
                       {% endif %}

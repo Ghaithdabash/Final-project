@@ -42,15 +42,18 @@
                                 word-break: break-word;
                                 border:none;">
                             <div class="modal-footer row m-0  justify-content-start">
-                                <div class=" col-md-4  m-0 justify-content-start">
-                                  <label for="image_upload">
+                                <div class=" col-md-8  m-0 justify-content-start">
+                                  <label for="image_upload" style="cursor:pointer">
                                     <i class="fa fa-camera fa-md " aria-hidden="true">Add photo</i></label>
-                                      <input type="file" name="photo" id="image_upload" style="display: none">
+                                      <input type="file" name="photo"  maxlength="100" id="image_upload" style="display: none">
                                 </div>
                                  <div class="col-md-4 m-0 ">
                                     <button type="submit" id="postbtn_modal_id" class="save btn btn-success float-right" name="">Post</button>
                                  </div>
                               </div>
+                              <div class="row  pl-4 ">
+                                <p id="url_upload"></p>
+                            </div>
                           </div>
                  </form>
             </div>
@@ -62,7 +65,7 @@
         <div class="navbar-brand mybrand">
           <a href="{% url 'home' %}">
             <i class="fa fa-comments m-2" id="fa3" aria-hidden="true"></i>
-              <span id="text1">simple</span><span id="text2">social<span>
+              <span id="text1">simply</span><span id="text2">social<span>
           </a>
         </div>
       </div>

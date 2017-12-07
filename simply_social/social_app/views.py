@@ -37,7 +37,13 @@ def home(request):
        posts = paginator.page(1)
    except EmptyPage:
        posts = paginator.page(paginator.num_pages)
-   return render(request, 'social_app/post_list.html', {'posts': posts,'arr_of_like_objs':arr_of_like_objs})
+
+   try:
+       followers = Follower.objects.get(followerid=request.user.id)
+   except:
+       return render(request, 'social_app/post_list.html', {'posts': posts,'arr_of_like_objs':arr_of_like_objs})
+
+   return render(request, 'social_app/post_list.html', {'posts': posts,'arr_of_like_objs':arr_of_like_objs,'followers':followers})
 
 def getimages(request):
     photos = Post.objects.exclude(photo='').order_by('-date')

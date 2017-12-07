@@ -63,7 +63,7 @@
         <div class="navbar-brand mybrand">
           <a href="{% url 'home' %}">
             <i class="fa fa-comments m-2" id="fa3" aria-hidden="true"></i>
-              <span id="text1">simple</span><span id="text2">social<span>
+              <span id="text1">simply</span><span id="text2">social<span>
           </a>
         </div>
       </div>
@@ -79,16 +79,7 @@
                           <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link" href="">profile</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="dropdown-item" href="{% url 'user_update' pk=user.pk %}">setting</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="">followers</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link " href="">following</a>
+                          <a class="nav-link" href="{% url 'profile' %}">profile</a>
                         </li>
                         <li class="nav-item">
                           <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
@@ -117,10 +108,7 @@
                   <img src={{profile.profilepic.url}} class="rounded" width="30px" height="30px" alt="">
                 </a>
                 <div class="dropdown-menu">
-                  <a class="dropdown-item" href="">profile</a>
-                  <a class="dropdown-item" href="{% url 'user_update' pk=user.pk %}">settings</a>
-                  <a class="dropdown-item" href="">followers</a>
-                  <a class="dropdown-item" href="">following</a>
+                  <a class="dropdown-item" href="{% url 'profile' %}">profile</a>
                   <a class='nav-link bigbrand' href="{% url 'logout' %}">Log Out</a>
                 </div>
               </li>

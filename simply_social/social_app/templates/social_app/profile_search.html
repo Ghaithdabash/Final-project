@@ -50,8 +50,8 @@
 
 {% block content %}
 {% for key,post in all_post.items %}
-{% if follower.connected == True %}
-{{profile_pic.status}}
+{% if follower.connected == True or profile_pic.status == False %}
+
 <div class="row">
 <div class="col-md-12 ">
   <div class="row designrow-home justify-content-center ">
@@ -95,7 +95,7 @@
           <p class="pl-2" style="color:#DDE0E5; font-size:12px;">{{post.get_current}}</p>
         </div>
         {% if post.text %}
-            <div  style="width:50%;" class="pb-0 pl-3">
+            <div  style="width:90%;" class="pb-0 pl-3">
                 <p style="font-size:12px;">{{ post.text }}</p>
             </div>
         {% endif %}
